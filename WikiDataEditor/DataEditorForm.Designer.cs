@@ -1,6 +1,6 @@
 ﻿namespace WikiDataEditor
 {
-	partial class Form1
+	partial class DataEditorForm
 	{
 		/// <summary>
 		///  Required designer variable.
