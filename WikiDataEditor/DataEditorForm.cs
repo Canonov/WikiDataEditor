@@ -48,6 +48,25 @@ public partial class DataEditorForm : Form
 		ListViewDisplayRecords();
 	}
 
+	private (bool can, string? reason) CanAddRecord(string name, string? category, string? structure, string? definition)
+	{
+		if (string.IsNullOrWhiteSpace(name) || name == "~")
+			return (false, "Name is empty");
+		if (_ptr >= Rows)
+			return (false, "Insufficient space left in collection.");
+
+		return (true, null);
+	}
+
+	private void AddRecord(string name, string? category, string? structure, string? definition)
+	{
+		Records[_ptr, ColumnsIndex.Name] = name;
+		Records[_ptr, ColumnsIndex.Category] = category ?? "~";
+		Records[_ptr, ColumnsIndex.Structure] = structure ?? "~";
+		Records[_ptr, ColumnsIndex.Definition] = definition ?? "~";
+		_ptr++;
+	}
+
 	/// <summary>
 	/// Set each record to a default value
 	/// </summary>

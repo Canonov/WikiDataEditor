@@ -175,6 +175,7 @@
 			// 
 			// groupBoxRecordValues
 			// 
+			groupBoxRecordValues.BackColor = SystemColors.Control;
 			groupBoxRecordValues.Controls.Add(labelDefinition);
 			groupBoxRecordValues.Controls.Add(textBoxDefinition);
 			groupBoxRecordValues.Controls.Add(labelStructure);
