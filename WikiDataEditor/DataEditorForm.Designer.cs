@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataEditorForm));
 			listViewRecords = new ListView();
 			columnHeaderName = new ColumnHeader();
@@ -60,6 +61,7 @@
 			groupBoxSearch = new GroupBox();
 			textBox1 = new TextBox();
 			buttonSearch = new Button();
+			toolTip1 = new ToolTip(components);
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
 			groupBoxControls.SuspendLayout();
@@ -331,7 +333,7 @@
 			Controls.Add(listViewRecords);
 			MainMenuStrip = menuStrip;
 			Name = "DataEditorForm";
-			Text = "Form1";
+			Text = "Wiki Data Editor";
 			menuStrip.ResumeLayout(false);
 			menuStrip.PerformLayout();
 			groupBoxRecordValues.ResumeLayout(false);
@@ -376,5 +378,6 @@
 		private GroupBox groupBoxSearch;
 		private Button buttonSearch;
 		private TextBox textBox1;
+		private ToolTip toolTip1;
 	}
 }
