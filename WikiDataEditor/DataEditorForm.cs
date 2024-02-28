@@ -131,4 +131,14 @@ public partial class DataEditorForm : Form
 	{
 		ClearTextboxes();
 	}
+
+	// When the name textbox is double-clicked, offer to clear the textboxes
+	private void textBoxName_MouseDoubleClick(object sender, MouseEventArgs e)
+	{
+		var result = MessageBox.Show(@"Would you like to clear the values?", @"Clear Items",
+			MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+		if (result == DialogResult.Yes)
+			ClearTextboxes();
+	}
 }

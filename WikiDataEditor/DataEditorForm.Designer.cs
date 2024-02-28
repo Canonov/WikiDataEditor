@@ -97,6 +97,7 @@
 			textBoxName.PlaceholderText = "NO OBJECT SELECTED";
 			textBoxName.Size = new Size(209, 23);
 			textBoxName.TabIndex = 1;
+			textBoxName.MouseDoubleClick += textBoxName_MouseDoubleClick;
 			// 
 			// statusStrip
 			// 
