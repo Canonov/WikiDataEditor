@@ -68,9 +68,13 @@
 			// 
 			// listViewRecords
 			// 
+			listViewRecords.BackColor = Color.Gainsboro;
 			listViewRecords.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderCategory });
+			listViewRecords.Font = new Font("Tahoma", 9F);
+			listViewRecords.ForeColor = SystemColors.MenuText;
 			listViewRecords.FullRowSelect = true;
 			listViewRecords.GridLines = true;
+			listViewRecords.HeaderStyle = ColumnHeaderStyle.Nonclickable;
 			listViewRecords.Location = new Point(5, 37);
 			listViewRecords.MultiSelect = false;
 			listViewRecords.Name = "listViewRecords";
@@ -92,15 +96,17 @@
 			// 
 			// textBoxName
 			// 
+			textBoxName.Font = new Font("Tahoma", 9F);
 			textBoxName.Location = new Point(6, 42);
 			textBoxName.Name = "textBoxName";
 			textBoxName.PlaceholderText = "NO OBJECT SELECTED";
-			textBoxName.Size = new Size(209, 23);
+			textBoxName.Size = new Size(209, 22);
 			textBoxName.TabIndex = 1;
 			textBoxName.MouseDoubleClick += textBoxName_MouseDoubleClick;
 			// 
 			// statusStrip
 			// 
+			statusStrip.BackColor = SystemColors.Control;
 			statusStrip.Location = new Point(0, 474);
 			statusStrip.Name = "statusStrip";
 			statusStrip.Size = new Size(562, 22);
@@ -109,10 +115,11 @@
 			// 
 			// menuStrip
 			// 
-			menuStrip.BackColor = SystemColors.ControlDark;
+			menuStrip.BackColor = SystemColors.ScrollBar;
 			menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
 			menuStrip.Location = new Point(0, 0);
 			menuStrip.Name = "menuStrip";
+			menuStrip.RenderMode = ToolStripRenderMode.System;
 			menuStrip.Size = new Size(562, 24);
 			menuStrip.TabIndex = 7;
 			menuStrip.Text = "menuStrip1";
@@ -176,6 +183,7 @@
 			groupBoxRecordValues.Controls.Add(textBoxCategory);
 			groupBoxRecordValues.Controls.Add(labelName);
 			groupBoxRecordValues.Controls.Add(textBoxName);
+			groupBoxRecordValues.Font = new Font("Tahoma", 9F);
 			groupBoxRecordValues.Location = new Point(333, 37);
 			groupBoxRecordValues.Name = "groupBoxRecordValues";
 			groupBoxRecordValues.Size = new Size(221, 221);
@@ -186,60 +194,67 @@
 			// labelDefinition
 			// 
 			labelDefinition.AutoSize = true;
+			labelDefinition.Font = new Font("Tahoma", 9F);
 			labelDefinition.Location = new Point(6, 171);
 			labelDefinition.Name = "labelDefinition";
-			labelDefinition.Size = new Size(59, 15);
+			labelDefinition.Size = new Size(58, 14);
 			labelDefinition.TabIndex = 8;
 			labelDefinition.Text = "Definition";
 			// 
 			// textBoxDefinition
 			// 
+			textBoxDefinition.Font = new Font("Tahoma", 9F);
 			textBoxDefinition.Location = new Point(6, 189);
 			textBoxDefinition.Name = "textBoxDefinition";
 			textBoxDefinition.PlaceholderText = "Empty...";
-			textBoxDefinition.Size = new Size(209, 23);
+			textBoxDefinition.Size = new Size(209, 22);
 			textBoxDefinition.TabIndex = 7;
 			// 
 			// labelStructure
 			// 
 			labelStructure.AutoSize = true;
+			labelStructure.Font = new Font("Tahoma", 9F);
 			labelStructure.Location = new Point(6, 123);
 			labelStructure.Name = "labelStructure";
-			labelStructure.Size = new Size(55, 15);
+			labelStructure.Size = new Size(59, 14);
 			labelStructure.TabIndex = 6;
 			labelStructure.Text = "Structure";
 			// 
 			// textBoxStructure
 			// 
+			textBoxStructure.Font = new Font("Tahoma", 9F);
 			textBoxStructure.Location = new Point(6, 141);
 			textBoxStructure.Name = "textBoxStructure";
 			textBoxStructure.PlaceholderText = "Empty...";
-			textBoxStructure.Size = new Size(209, 23);
+			textBoxStructure.Size = new Size(209, 22);
 			textBoxStructure.TabIndex = 5;
 			// 
 			// labelCategory
 			// 
 			labelCategory.AutoSize = true;
+			labelCategory.Font = new Font("Tahoma", 9F);
 			labelCategory.Location = new Point(6, 73);
 			labelCategory.Name = "labelCategory";
-			labelCategory.Size = new Size(55, 15);
+			labelCategory.Size = new Size(56, 14);
 			labelCategory.TabIndex = 4;
 			labelCategory.Text = "Category";
 			// 
 			// textBoxCategory
 			// 
+			textBoxCategory.Font = new Font("Tahoma", 9F);
 			textBoxCategory.Location = new Point(6, 91);
 			textBoxCategory.Name = "textBoxCategory";
 			textBoxCategory.PlaceholderText = "Empty...";
-			textBoxCategory.Size = new Size(209, 23);
+			textBoxCategory.Size = new Size(209, 22);
 			textBoxCategory.TabIndex = 3;
 			// 
 			// labelName
 			// 
 			labelName.AutoSize = true;
+			labelName.Font = new Font("Tahoma", 9F);
 			labelName.Location = new Point(6, 24);
 			labelName.Name = "labelName";
-			labelName.Size = new Size(39, 15);
+			labelName.Size = new Size(38, 14);
 			labelName.TabIndex = 2;
 			labelName.Text = "Name";
 			// 
@@ -249,6 +264,7 @@
 			groupBoxControls.Controls.Add(buttonClear);
 			groupBoxControls.Controls.Add(buttonDelete);
 			groupBoxControls.Controls.Add(buttonAdd);
+			groupBoxControls.Font = new Font("Tahoma", 9F);
 			groupBoxControls.Location = new Point(333, 264);
 			groupBoxControls.Name = "groupBoxControls";
 			groupBoxControls.Size = new Size(221, 102);
@@ -258,6 +274,7 @@
 			// 
 			// buttonEdit
 			// 
+			buttonEdit.Font = new Font("Tahoma", 9F);
 			buttonEdit.Location = new Point(112, 59);
 			buttonEdit.Name = "buttonEdit";
 			buttonEdit.Size = new Size(97, 33);
@@ -267,6 +284,7 @@
 			// 
 			// buttonClear
 			// 
+			buttonClear.Font = new Font("Tahoma", 9F);
 			buttonClear.Location = new Point(9, 59);
 			buttonClear.Name = "buttonClear";
 			buttonClear.Size = new Size(97, 33);
@@ -277,6 +295,7 @@
 			// 
 			// buttonDelete
 			// 
+			buttonDelete.Font = new Font("Tahoma", 9F);
 			buttonDelete.Location = new Point(112, 20);
 			buttonDelete.Name = "buttonDelete";
 			buttonDelete.Size = new Size(97, 33);
@@ -286,6 +305,7 @@
 			// 
 			// buttonAdd
 			// 
+			buttonAdd.Font = new Font("Tahoma", 9F);
 			buttonAdd.Location = new Point(9, 20);
 			buttonAdd.Name = "buttonAdd";
 			buttonAdd.Size = new Size(97, 33);
@@ -297,6 +317,7 @@
 			// 
 			groupBoxSearch.Controls.Add(buttonSearch);
 			groupBoxSearch.Controls.Add(textBox1);
+			groupBoxSearch.Font = new Font("Tahoma", 9F);
 			groupBoxSearch.Location = new Point(333, 372);
 			groupBoxSearch.Name = "groupBoxSearch";
 			groupBoxSearch.Size = new Size(221, 99);
@@ -318,13 +339,14 @@
 			textBox1.Location = new Point(6, 30);
 			textBox1.Name = "textBox1";
 			textBox1.PlaceholderText = "Enter Search Query";
-			textBox1.Size = new Size(203, 23);
+			textBox1.Size = new Size(203, 22);
 			textBox1.TabIndex = 0;
 			// 
 			// DataEditorForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = SystemColors.Control;
 			ClientSize = new Size(562, 496);
 			Controls.Add(groupBoxSearch);
 			Controls.Add(groupBoxControls);
