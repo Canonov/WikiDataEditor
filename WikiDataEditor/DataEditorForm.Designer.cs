@@ -78,6 +78,7 @@
 			listViewRecords.TabIndex = 0;
 			listViewRecords.UseCompatibleStateImageBehavior = false;
 			listViewRecords.View = View.Details;
+			listViewRecords.SelectedIndexChanged += listViewRecords_SelectedIndexChanged;
 			// 
 			// columnHeaderName
 			// 
@@ -271,6 +272,7 @@
 			buttonClear.TabIndex = 2;
 			buttonClear.Text = "CLEAR";
 			buttonClear.UseVisualStyleBackColor = true;
+			buttonClear.Click += buttonClear_Click;
 			// 
 			// buttonDelete
 			// 

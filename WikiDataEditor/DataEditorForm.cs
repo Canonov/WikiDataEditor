@@ -7,9 +7,9 @@ public partial class DataEditorForm : Form
 	// Pseudo-Enum just so I don't have to use magic numbers
 	private static class ColumnsIndex
 	{
-		public const int Name = 0, 
-						 Category = 1, 
-						 Structure = 2, 
+		public const int Name = 0,
+						 Category = 1,
+						 Structure = 2,
 						 Definition = 3;
 	}
 
@@ -60,6 +60,30 @@ public partial class DataEditorForm : Form
 		}
 	}
 
+	// Clears the currently selected textboxes - 9.5
+	private void ClearTextboxes()
+	{
+		textBoxName.Clear();
+		textBoxCategory.Clear();
+		textBoxStructure.Clear();
+		textBoxDefinition.Clear();
+	}
+
+	// Select a record at the specified index and display it on the textboxes, 9.9 - 2
+	private void SelectRecord(int index)
+	{
+		// used to put nothing instead of the tilde for an empty value.
+		static string EmptyIfTilde(string s)
+		{
+			return s == "~" ? "" : s;
+		}
+
+		textBoxName.Text = Records[index, ColumnsIndex.Name];
+		textBoxCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
+		textBoxStructure.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
+		textBoxDefinition.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
+	}
+
 	/// <summary>
 	/// Display the names and categories of the records to the listview. 9.8
 	/// </summary>
@@ -85,5 +109,26 @@ public partial class DataEditorForm : Form
 		}
 
 		listViewRecords.Update();
+	}
+
+	// When the user selects a record from the list, 9.9 - 1
+	private void listViewRecords_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		// If the user has unselected, clear the textboxes
+		if (listViewRecords.SelectedIndices.Count == 0)
+		{
+			ClearTextboxes();
+		}
+		else
+		{
+			int selectedIndex = listViewRecords.SelectedIndices[0];
+			SelectRecord(selectedIndex);
+		}
+	}
+
+	// When the user pressed the clear button, clear the textboxes
+	private void buttonClear_Click(object sender, EventArgs e)
+	{
+		ClearTextboxes();
 	}
 }
