@@ -36,7 +36,7 @@
 			columnHeaderStructure = new ColumnHeader();
 			columnHeaderDefinition = new ColumnHeader();
 			textBoxName = new TextBox();
-			statusStrip1 = new StatusStrip();
+			statusStrip = new StatusStrip();
 			menuStrip = new MenuStrip();
 			fileToolStripMenuItem = new ToolStripMenuItem();
 			newToolStripMenuItem = new ToolStripMenuItem();
@@ -61,7 +61,7 @@
 			groupBoxSearch = new GroupBox();
 			textBox1 = new TextBox();
 			buttonSearch = new Button();
-			toolTip1 = new ToolTip(components);
+			toolTips = new ToolTip(components);
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
 			groupBoxControls.SuspendLayout();
@@ -104,13 +104,13 @@
 			textBoxName.Size = new Size(209, 23);
 			textBoxName.TabIndex = 1;
 			// 
-			// statusStrip1
+			// statusStrip
 			// 
-			statusStrip1.Location = new Point(0, 474);
-			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(562, 22);
-			statusStrip1.TabIndex = 6;
-			statusStrip1.Text = "statusStrip1";
+			statusStrip.Location = new Point(0, 474);
+			statusStrip.Name = "statusStrip";
+			statusStrip.Size = new Size(562, 22);
+			statusStrip.TabIndex = 6;
+			statusStrip.Text = "statusStrip1";
 			// 
 			// menuStrip
 			// 
@@ -333,7 +333,7 @@
 			Controls.Add(groupBoxSearch);
 			Controls.Add(groupBoxControls);
 			Controls.Add(groupBoxRecordValues);
-			Controls.Add(statusStrip1);
+			Controls.Add(statusStrip);
 			Controls.Add(menuStrip);
 			Controls.Add(listViewRecords);
 			MainMenuStrip = menuStrip;
@@ -354,7 +354,7 @@
 
 		private ListView listViewRecords;
 		private TextBox textBoxName;
-		private StatusStrip statusStrip1;
+		private StatusStrip statusStrip;
 		private MenuStrip menuStrip;
 		private ColumnHeader columnHeaderName;
 		private ColumnHeader columnHeaderCategory;
@@ -383,6 +383,6 @@
 		private GroupBox groupBoxSearch;
 		private Button buttonSearch;
 		private TextBox textBox1;
-		private ToolTip toolTip1;
+		private ToolTip toolTips;
 	}
 }
