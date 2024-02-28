@@ -100,6 +100,7 @@
 			// 
 			textBoxName.Location = new Point(6, 42);
 			textBoxName.Name = "textBoxName";
+			textBoxName.PlaceholderText = "NO OBJECT SELECTED";
 			textBoxName.Size = new Size(209, 23);
 			textBoxName.TabIndex = 1;
 			// 
@@ -133,9 +134,8 @@
 			newToolStripMenuItem.Image = (Image)resources.GetObject("newToolStripMenuItem.Image");
 			newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			newToolStripMenuItem.Name = "newToolStripMenuItem";
-			newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
 			newToolStripMenuItem.Size = new Size(196, 22);
-			newToolStripMenuItem.Text = "&New File";
+			newToolStripMenuItem.Text = "Clear";
 			// 
 			// openToolStripMenuItem
 			// 
@@ -156,8 +156,9 @@
 			saveToolStripMenuItem.Image = (Image)resources.GetObject("saveToolStripMenuItem.Image");
 			saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+			saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
 			saveToolStripMenuItem.Size = new Size(196, 22);
-			saveToolStripMenuItem.Text = "Save to File";
+			saveToolStripMenuItem.Text = "&Save to File";
 			// 
 			// toolStripSeparator1
 			// 
@@ -209,6 +210,7 @@
 			// 
 			textBoxCategory.Location = new Point(6, 91);
 			textBoxCategory.Name = "textBoxCategory";
+			textBoxCategory.PlaceholderText = "Empty...";
 			textBoxCategory.Size = new Size(209, 23);
 			textBoxCategory.TabIndex = 3;
 			// 
@@ -225,6 +227,7 @@
 			// 
 			textBoxStructure.Location = new Point(6, 141);
 			textBoxStructure.Name = "textBoxStructure";
+			textBoxStructure.PlaceholderText = "Empty...";
 			textBoxStructure.Size = new Size(209, 23);
 			textBoxStructure.TabIndex = 5;
 			// 
@@ -241,6 +244,7 @@
 			// 
 			textBoxDefinition.Location = new Point(6, 189);
 			textBoxDefinition.Name = "textBoxDefinition";
+			textBoxDefinition.PlaceholderText = "Empty...";
 			textBoxDefinition.Size = new Size(209, 23);
 			textBoxDefinition.TabIndex = 7;
 			// 
@@ -308,6 +312,7 @@
 			// 
 			textBox1.Location = new Point(6, 30);
 			textBox1.Name = "textBox1";
+			textBox1.PlaceholderText = "Enter Search Query";
 			textBox1.Size = new Size(203, 23);
 			textBox1.TabIndex = 0;
 			// 
