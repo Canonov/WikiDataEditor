@@ -1,8 +1,10 @@
 namespace WikiDataEditor;
 
+// 30048254
+// Program for editing wiki entries, using a 2d record data structure.
+
 public partial class DataEditorForm : Form
 {
-
 
 	// Pseudo-Enum just so I don't have to use magic numbers
 	private static class ColumnsIndex
