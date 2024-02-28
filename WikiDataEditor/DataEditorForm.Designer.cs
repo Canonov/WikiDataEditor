@@ -33,8 +33,6 @@
 			listViewRecords = new ListView();
 			columnHeaderName = new ColumnHeader();
 			columnHeaderCategory = new ColumnHeader();
-			columnHeaderStructure = new ColumnHeader();
-			columnHeaderDefinition = new ColumnHeader();
 			textBoxName = new TextBox();
 			statusStrip = new StatusStrip();
 			menuStrip = new MenuStrip();
@@ -46,21 +44,21 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			exitToolStripMenuItem = new ToolStripMenuItem();
 			groupBoxRecordValues = new GroupBox();
-			labelName = new Label();
-			labelCategory = new Label();
-			textBoxCategory = new TextBox();
-			labelStructure = new Label();
-			textBoxStructure = new TextBox();
 			labelDefinition = new Label();
 			textBoxDefinition = new TextBox();
+			labelStructure = new Label();
+			textBoxStructure = new TextBox();
+			labelCategory = new Label();
+			textBoxCategory = new TextBox();
+			labelName = new Label();
 			groupBoxControls = new GroupBox();
-			buttonAdd = new Button();
-			buttonDelete = new Button();
 			buttonEdit = new Button();
 			buttonClear = new Button();
+			buttonDelete = new Button();
+			buttonAdd = new Button();
 			groupBoxSearch = new GroupBox();
-			textBox1 = new TextBox();
 			buttonSearch = new Button();
+			textBox1 = new TextBox();
 			toolTips = new ToolTip(components);
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
@@ -70,9 +68,11 @@
 			// 
 			// listViewRecords
 			// 
-			listViewRecords.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderCategory, columnHeaderStructure, columnHeaderDefinition });
+			listViewRecords.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderCategory });
+			listViewRecords.FullRowSelect = true;
 			listViewRecords.GridLines = true;
 			listViewRecords.Location = new Point(5, 37);
+			listViewRecords.MultiSelect = false;
 			listViewRecords.Name = "listViewRecords";
 			listViewRecords.Size = new Size(320, 434);
 			listViewRecords.TabIndex = 0;
@@ -82,19 +82,12 @@
 			// columnHeaderName
 			// 
 			columnHeaderName.Text = "Name";
+			columnHeaderName.Width = 220;
 			// 
 			// columnHeaderCategory
 			// 
 			columnHeaderCategory.Text = "Category";
-			// 
-			// columnHeaderStructure
-			// 
-			columnHeaderStructure.Text = "Structure";
-			// 
-			// columnHeaderDefinition
-			// 
-			columnHeaderDefinition.Text = "Definition";
-			columnHeaderDefinition.Width = 140;
+			columnHeaderCategory.Width = 100;
 			// 
 			// textBoxName
 			// 
@@ -188,31 +181,22 @@
 			groupBoxRecordValues.TabStop = false;
 			groupBoxRecordValues.Text = "Values";
 			// 
-			// labelName
+			// labelDefinition
 			// 
-			labelName.AutoSize = true;
-			labelName.Location = new Point(6, 24);
-			labelName.Name = "labelName";
-			labelName.Size = new Size(39, 15);
-			labelName.TabIndex = 2;
-			labelName.Text = "Name";
+			labelDefinition.AutoSize = true;
+			labelDefinition.Location = new Point(6, 171);
+			labelDefinition.Name = "labelDefinition";
+			labelDefinition.Size = new Size(59, 15);
+			labelDefinition.TabIndex = 8;
+			labelDefinition.Text = "Definition";
 			// 
-			// labelCategory
+			// textBoxDefinition
 			// 
-			labelCategory.AutoSize = true;
-			labelCategory.Location = new Point(6, 73);
-			labelCategory.Name = "labelCategory";
-			labelCategory.Size = new Size(55, 15);
-			labelCategory.TabIndex = 4;
-			labelCategory.Text = "Category";
-			// 
-			// textBoxCategory
-			// 
-			textBoxCategory.Location = new Point(6, 91);
-			textBoxCategory.Name = "textBoxCategory";
-			textBoxCategory.PlaceholderText = "Empty...";
-			textBoxCategory.Size = new Size(209, 23);
-			textBoxCategory.TabIndex = 3;
+			textBoxDefinition.Location = new Point(6, 189);
+			textBoxDefinition.Name = "textBoxDefinition";
+			textBoxDefinition.PlaceholderText = "Empty...";
+			textBoxDefinition.Size = new Size(209, 23);
+			textBoxDefinition.TabIndex = 7;
 			// 
 			// labelStructure
 			// 
@@ -231,22 +215,31 @@
 			textBoxStructure.Size = new Size(209, 23);
 			textBoxStructure.TabIndex = 5;
 			// 
-			// labelDefinition
+			// labelCategory
 			// 
-			labelDefinition.AutoSize = true;
-			labelDefinition.Location = new Point(6, 171);
-			labelDefinition.Name = "labelDefinition";
-			labelDefinition.Size = new Size(59, 15);
-			labelDefinition.TabIndex = 8;
-			labelDefinition.Text = "Definition";
+			labelCategory.AutoSize = true;
+			labelCategory.Location = new Point(6, 73);
+			labelCategory.Name = "labelCategory";
+			labelCategory.Size = new Size(55, 15);
+			labelCategory.TabIndex = 4;
+			labelCategory.Text = "Category";
 			// 
-			// textBoxDefinition
+			// textBoxCategory
 			// 
-			textBoxDefinition.Location = new Point(6, 189);
-			textBoxDefinition.Name = "textBoxDefinition";
-			textBoxDefinition.PlaceholderText = "Empty...";
-			textBoxDefinition.Size = new Size(209, 23);
-			textBoxDefinition.TabIndex = 7;
+			textBoxCategory.Location = new Point(6, 91);
+			textBoxCategory.Name = "textBoxCategory";
+			textBoxCategory.PlaceholderText = "Empty...";
+			textBoxCategory.Size = new Size(209, 23);
+			textBoxCategory.TabIndex = 3;
+			// 
+			// labelName
+			// 
+			labelName.AutoSize = true;
+			labelName.Location = new Point(6, 24);
+			labelName.Name = "labelName";
+			labelName.Size = new Size(39, 15);
+			labelName.TabIndex = 2;
+			labelName.Text = "Name";
 			// 
 			// groupBoxControls
 			// 
@@ -260,24 +253,6 @@
 			groupBoxControls.TabIndex = 9;
 			groupBoxControls.TabStop = false;
 			groupBoxControls.Text = "Controls";
-			// 
-			// buttonAdd
-			// 
-			buttonAdd.Location = new Point(9, 20);
-			buttonAdd.Name = "buttonAdd";
-			buttonAdd.Size = new Size(97, 33);
-			buttonAdd.TabIndex = 0;
-			buttonAdd.Text = "ADD";
-			buttonAdd.UseVisualStyleBackColor = true;
-			// 
-			// buttonDelete
-			// 
-			buttonDelete.Location = new Point(112, 20);
-			buttonDelete.Name = "buttonDelete";
-			buttonDelete.Size = new Size(97, 33);
-			buttonDelete.TabIndex = 1;
-			buttonDelete.Text = "DELETE";
-			buttonDelete.UseVisualStyleBackColor = true;
 			// 
 			// buttonEdit
 			// 
@@ -297,6 +272,24 @@
 			buttonClear.Text = "CLEAR";
 			buttonClear.UseVisualStyleBackColor = true;
 			// 
+			// buttonDelete
+			// 
+			buttonDelete.Location = new Point(112, 20);
+			buttonDelete.Name = "buttonDelete";
+			buttonDelete.Size = new Size(97, 33);
+			buttonDelete.TabIndex = 1;
+			buttonDelete.Text = "DELETE";
+			buttonDelete.UseVisualStyleBackColor = true;
+			// 
+			// buttonAdd
+			// 
+			buttonAdd.Location = new Point(9, 20);
+			buttonAdd.Name = "buttonAdd";
+			buttonAdd.Size = new Size(97, 33);
+			buttonAdd.TabIndex = 0;
+			buttonAdd.Text = "ADD";
+			buttonAdd.UseVisualStyleBackColor = true;
+			// 
 			// groupBoxSearch
 			// 
 			groupBoxSearch.Controls.Add(buttonSearch);
@@ -308,14 +301,6 @@
 			groupBoxSearch.TabStop = false;
 			groupBoxSearch.Text = "Search";
 			// 
-			// textBox1
-			// 
-			textBox1.Location = new Point(6, 30);
-			textBox1.Name = "textBox1";
-			textBox1.PlaceholderText = "Enter Search Query";
-			textBox1.Size = new Size(203, 23);
-			textBox1.TabIndex = 0;
-			// 
 			// buttonSearch
 			// 
 			buttonSearch.Location = new Point(6, 59);
@@ -324,6 +309,14 @@
 			buttonSearch.TabIndex = 1;
 			buttonSearch.Text = "SEARCH";
 			buttonSearch.UseVisualStyleBackColor = true;
+			// 
+			// textBox1
+			// 
+			textBox1.Location = new Point(6, 30);
+			textBox1.Name = "textBox1";
+			textBox1.PlaceholderText = "Enter Search Query";
+			textBox1.Size = new Size(203, 23);
+			textBox1.TabIndex = 0;
 			// 
 			// DataEditorForm
 			// 
@@ -339,6 +332,7 @@
 			MainMenuStrip = menuStrip;
 			Name = "DataEditorForm";
 			Text = "Wiki Data Editor";
+			Load += DataEditorForm_Load;
 			menuStrip.ResumeLayout(false);
 			menuStrip.PerformLayout();
 			groupBoxRecordValues.ResumeLayout(false);
@@ -358,8 +352,6 @@
 		private MenuStrip menuStrip;
 		private ColumnHeader columnHeaderName;
 		private ColumnHeader columnHeaderCategory;
-		private ColumnHeader columnHeaderStructure;
-		private ColumnHeader columnHeaderDefinition;
 		private GroupBox groupBoxRecordValues;
 		private ToolStripMenuItem fileToolStripMenuItem;
 		private ToolStripMenuItem newToolStripMenuItem;
