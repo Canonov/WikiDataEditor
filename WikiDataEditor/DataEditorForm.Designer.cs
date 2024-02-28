@@ -34,10 +34,7 @@
 			columnHeaderCategory = new ColumnHeader();
 			columnHeaderStructure = new ColumnHeader();
 			columnHeaderDefinition = new ColumnHeader();
-			textBox1 = new TextBox();
-			textBox2 = new TextBox();
-			textBox3 = new TextBox();
-			textBox4 = new TextBox();
+			textBoxName = new TextBox();
 			statusStrip1 = new StatusStrip();
 			menuStrip = new MenuStrip();
 			fileToolStripMenuItem = new ToolStripMenuItem();
@@ -48,17 +45,34 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			exitToolStripMenuItem = new ToolStripMenuItem();
 			groupBoxRecordValues = new GroupBox();
+			labelName = new Label();
+			labelCategory = new Label();
+			textBoxCategory = new TextBox();
+			labelStructure = new Label();
+			textBoxStructure = new TextBox();
+			labelDefinition = new Label();
+			textBoxDefinition = new TextBox();
+			groupBoxControls = new GroupBox();
+			buttonAdd = new Button();
+			buttonDelete = new Button();
+			buttonEdit = new Button();
+			buttonClear = new Button();
+			groupBoxSearch = new GroupBox();
+			textBox1 = new TextBox();
+			buttonSearch = new Button();
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
+			groupBoxControls.SuspendLayout();
+			groupBoxSearch.SuspendLayout();
 			SuspendLayout();
 			// 
 			// listViewRecords
 			// 
 			listViewRecords.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderCategory, columnHeaderStructure, columnHeaderDefinition });
 			listViewRecords.GridLines = true;
-			listViewRecords.Location = new Point(391, 45);
+			listViewRecords.Location = new Point(5, 37);
 			listViewRecords.Name = "listViewRecords";
-			listViewRecords.Size = new Size(320, 426);
+			listViewRecords.Size = new Size(320, 434);
 			listViewRecords.TabIndex = 0;
 			listViewRecords.UseCompatibleStateImageBehavior = false;
 			listViewRecords.View = View.Details;
@@ -80,39 +94,18 @@
 			columnHeaderDefinition.Text = "Definition";
 			columnHeaderDefinition.Width = 140;
 			// 
-			// textBox1
+			// textBoxName
 			// 
-			textBox1.Location = new Point(10, 22);
-			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(200, 23);
-			textBox1.TabIndex = 1;
-			// 
-			// textBox2
-			// 
-			textBox2.Location = new Point(10, 51);
-			textBox2.Name = "textBox2";
-			textBox2.Size = new Size(200, 23);
-			textBox2.TabIndex = 2;
-			// 
-			// textBox3
-			// 
-			textBox3.Location = new Point(10, 80);
-			textBox3.Name = "textBox3";
-			textBox3.Size = new Size(200, 23);
-			textBox3.TabIndex = 3;
-			// 
-			// textBox4
-			// 
-			textBox4.Location = new Point(10, 109);
-			textBox4.Name = "textBox4";
-			textBox4.Size = new Size(200, 23);
-			textBox4.TabIndex = 4;
+			textBoxName.Location = new Point(6, 42);
+			textBoxName.Name = "textBoxName";
+			textBoxName.Size = new Size(209, 23);
+			textBoxName.TabIndex = 1;
 			// 
 			// statusStrip1
 			// 
 			statusStrip1.Location = new Point(0, 474);
 			statusStrip1.Name = "statusStrip1";
-			statusStrip1.Size = new Size(721, 22);
+			statusStrip1.Size = new Size(562, 22);
 			statusStrip1.TabIndex = 6;
 			statusStrip1.Text = "statusStrip1";
 			// 
@@ -122,7 +115,7 @@
 			menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
 			menuStrip.Location = new Point(0, 0);
 			menuStrip.Name = "menuStrip";
-			menuStrip.Size = new Size(721, 24);
+			menuStrip.Size = new Size(562, 24);
 			menuStrip.TabIndex = 7;
 			menuStrip.Text = "menuStrip1";
 			// 
@@ -177,22 +170,161 @@
 			// 
 			// groupBoxRecordValues
 			// 
-			groupBoxRecordValues.Controls.Add(textBox1);
-			groupBoxRecordValues.Controls.Add(textBox4);
-			groupBoxRecordValues.Controls.Add(textBox3);
-			groupBoxRecordValues.Controls.Add(textBox2);
-			groupBoxRecordValues.Location = new Point(12, 37);
+			groupBoxRecordValues.Controls.Add(labelDefinition);
+			groupBoxRecordValues.Controls.Add(textBoxDefinition);
+			groupBoxRecordValues.Controls.Add(labelStructure);
+			groupBoxRecordValues.Controls.Add(textBoxStructure);
+			groupBoxRecordValues.Controls.Add(labelCategory);
+			groupBoxRecordValues.Controls.Add(textBoxCategory);
+			groupBoxRecordValues.Controls.Add(labelName);
+			groupBoxRecordValues.Controls.Add(textBoxName);
+			groupBoxRecordValues.Location = new Point(333, 37);
 			groupBoxRecordValues.Name = "groupBoxRecordValues";
-			groupBoxRecordValues.Size = new Size(373, 140);
+			groupBoxRecordValues.Size = new Size(221, 221);
 			groupBoxRecordValues.TabIndex = 8;
 			groupBoxRecordValues.TabStop = false;
 			groupBoxRecordValues.Text = "Values";
+			// 
+			// labelName
+			// 
+			labelName.AutoSize = true;
+			labelName.Location = new Point(6, 24);
+			labelName.Name = "labelName";
+			labelName.Size = new Size(39, 15);
+			labelName.TabIndex = 2;
+			labelName.Text = "Name";
+			// 
+			// labelCategory
+			// 
+			labelCategory.AutoSize = true;
+			labelCategory.Location = new Point(6, 73);
+			labelCategory.Name = "labelCategory";
+			labelCategory.Size = new Size(55, 15);
+			labelCategory.TabIndex = 4;
+			labelCategory.Text = "Category";
+			// 
+			// textBoxCategory
+			// 
+			textBoxCategory.Location = new Point(6, 91);
+			textBoxCategory.Name = "textBoxCategory";
+			textBoxCategory.Size = new Size(209, 23);
+			textBoxCategory.TabIndex = 3;
+			// 
+			// labelStructure
+			// 
+			labelStructure.AutoSize = true;
+			labelStructure.Location = new Point(6, 123);
+			labelStructure.Name = "labelStructure";
+			labelStructure.Size = new Size(55, 15);
+			labelStructure.TabIndex = 6;
+			labelStructure.Text = "Structure";
+			// 
+			// textBoxStructure
+			// 
+			textBoxStructure.Location = new Point(6, 141);
+			textBoxStructure.Name = "textBoxStructure";
+			textBoxStructure.Size = new Size(209, 23);
+			textBoxStructure.TabIndex = 5;
+			// 
+			// labelDefinition
+			// 
+			labelDefinition.AutoSize = true;
+			labelDefinition.Location = new Point(6, 171);
+			labelDefinition.Name = "labelDefinition";
+			labelDefinition.Size = new Size(59, 15);
+			labelDefinition.TabIndex = 8;
+			labelDefinition.Text = "Definition";
+			// 
+			// textBoxDefinition
+			// 
+			textBoxDefinition.Location = new Point(6, 189);
+			textBoxDefinition.Name = "textBoxDefinition";
+			textBoxDefinition.Size = new Size(209, 23);
+			textBoxDefinition.TabIndex = 7;
+			// 
+			// groupBoxControls
+			// 
+			groupBoxControls.Controls.Add(buttonEdit);
+			groupBoxControls.Controls.Add(buttonClear);
+			groupBoxControls.Controls.Add(buttonDelete);
+			groupBoxControls.Controls.Add(buttonAdd);
+			groupBoxControls.Location = new Point(333, 264);
+			groupBoxControls.Name = "groupBoxControls";
+			groupBoxControls.Size = new Size(221, 102);
+			groupBoxControls.TabIndex = 9;
+			groupBoxControls.TabStop = false;
+			groupBoxControls.Text = "Controls";
+			// 
+			// buttonAdd
+			// 
+			buttonAdd.Location = new Point(9, 20);
+			buttonAdd.Name = "buttonAdd";
+			buttonAdd.Size = new Size(97, 33);
+			buttonAdd.TabIndex = 0;
+			buttonAdd.Text = "ADD";
+			buttonAdd.UseVisualStyleBackColor = true;
+			// 
+			// buttonDelete
+			// 
+			buttonDelete.Location = new Point(112, 20);
+			buttonDelete.Name = "buttonDelete";
+			buttonDelete.Size = new Size(97, 33);
+			buttonDelete.TabIndex = 1;
+			buttonDelete.Text = "DELETE";
+			buttonDelete.UseVisualStyleBackColor = true;
+			// 
+			// buttonEdit
+			// 
+			buttonEdit.Location = new Point(112, 59);
+			buttonEdit.Name = "buttonEdit";
+			buttonEdit.Size = new Size(97, 33);
+			buttonEdit.TabIndex = 3;
+			buttonEdit.Text = "EDIT";
+			buttonEdit.UseVisualStyleBackColor = true;
+			// 
+			// buttonClear
+			// 
+			buttonClear.Location = new Point(9, 59);
+			buttonClear.Name = "buttonClear";
+			buttonClear.Size = new Size(97, 33);
+			buttonClear.TabIndex = 2;
+			buttonClear.Text = "CLEAR";
+			buttonClear.UseVisualStyleBackColor = true;
+			// 
+			// groupBoxSearch
+			// 
+			groupBoxSearch.Controls.Add(buttonSearch);
+			groupBoxSearch.Controls.Add(textBox1);
+			groupBoxSearch.Location = new Point(333, 372);
+			groupBoxSearch.Name = "groupBoxSearch";
+			groupBoxSearch.Size = new Size(221, 99);
+			groupBoxSearch.TabIndex = 10;
+			groupBoxSearch.TabStop = false;
+			groupBoxSearch.Text = "Search";
+			// 
+			// textBox1
+			// 
+			textBox1.Location = new Point(6, 30);
+			textBox1.Name = "textBox1";
+			textBox1.Size = new Size(203, 23);
+			textBox1.TabIndex = 0;
+			// 
+			// buttonSearch
+			// 
+			buttonSearch.Location = new Point(6, 59);
+			buttonSearch.Name = "buttonSearch";
+			buttonSearch.Size = new Size(203, 23);
+			buttonSearch.TabIndex = 1;
+			buttonSearch.Text = "SEARCH";
+			buttonSearch.UseVisualStyleBackColor = true;
 			// 
 			// DataEditorForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(721, 496);
+			ClientSize = new Size(562, 496);
+			Controls.Add(groupBoxSearch);
+			Controls.Add(groupBoxControls);
 			Controls.Add(groupBoxRecordValues);
 			Controls.Add(statusStrip1);
 			Controls.Add(menuStrip);
@@ -204,6 +336,9 @@
 			menuStrip.PerformLayout();
 			groupBoxRecordValues.ResumeLayout(false);
 			groupBoxRecordValues.PerformLayout();
+			groupBoxControls.ResumeLayout(false);
+			groupBoxSearch.ResumeLayout(false);
+			groupBoxSearch.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -211,10 +346,7 @@
 		#endregion
 
 		private ListView listViewRecords;
-		private TextBox textBox1;
-		private TextBox textBox2;
-		private TextBox textBox3;
-		private TextBox textBox4;
+		private TextBox textBoxName;
 		private StatusStrip statusStrip1;
 		private MenuStrip menuStrip;
 		private ColumnHeader columnHeaderName;
@@ -229,5 +361,20 @@
 		private ToolStripMenuItem saveToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem exitToolStripMenuItem;
+		private Label labelDefinition;
+		private TextBox textBoxDefinition;
+		private Label labelStructure;
+		private TextBox textBoxStructure;
+		private Label labelCategory;
+		private TextBox textBoxCategory;
+		private Label labelName;
+		private GroupBox groupBoxControls;
+		private Button buttonEdit;
+		private Button buttonClear;
+		private Button buttonDelete;
+		private Button buttonAdd;
+		private GroupBox groupBoxSearch;
+		private Button buttonSearch;
+		private TextBox textBox1;
 	}
 }
