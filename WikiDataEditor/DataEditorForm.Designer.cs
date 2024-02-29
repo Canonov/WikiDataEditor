@@ -58,7 +58,7 @@
 			buttonAdd = new Button();
 			groupBoxSearch = new GroupBox();
 			buttonSearch = new Button();
-			textBox1 = new TextBox();
+			textBoxSearch = new TextBox();
 			toolTips = new ToolTip(components);
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
@@ -322,7 +322,7 @@
 			// groupBoxSearch
 			// 
 			groupBoxSearch.Controls.Add(buttonSearch);
-			groupBoxSearch.Controls.Add(textBox1);
+			groupBoxSearch.Controls.Add(textBoxSearch);
 			groupBoxSearch.Font = new Font("Tahoma", 9F);
 			groupBoxSearch.Location = new Point(5, 362);
 			groupBoxSearch.Name = "groupBoxSearch";
@@ -339,14 +339,16 @@
 			buttonSearch.TabIndex = 1;
 			buttonSearch.Text = "SEARCH";
 			buttonSearch.UseVisualStyleBackColor = true;
+			buttonSearch.Click += buttonSearch_Click;
 			// 
-			// textBox1
+			// textBoxSearch
 			// 
-			textBox1.Location = new Point(6, 23);
-			textBox1.Name = "textBox1";
-			textBox1.PlaceholderText = "Enter Search Query";
-			textBox1.Size = new Size(203, 22);
-			textBox1.TabIndex = 0;
+			textBoxSearch.Location = new Point(6, 23);
+			textBoxSearch.Name = "textBoxSearch";
+			textBoxSearch.PlaceholderText = "Enter Search Query";
+			textBoxSearch.Size = new Size(203, 22);
+			textBoxSearch.TabIndex = 0;
+			textBoxSearch.KeyPress += textBoxSearch_KeyPress;
 			// 
 			// DataEditorForm
 			// 
@@ -405,7 +407,7 @@
 		private Button buttonAdd;
 		private GroupBox groupBoxSearch;
 		private Button buttonSearch;
-		private TextBox textBox1;
+		private TextBox textBoxSearch;
 		private ToolTip toolTips;
 	}
 }

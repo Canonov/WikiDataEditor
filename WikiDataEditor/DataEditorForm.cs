@@ -177,6 +177,12 @@ public partial class DataEditorForm : Form
 			return s == "~" ? "" : s;
 		}
 
+		// Disconnect the event handler and reconnect it after so it doesn't crash from an infinite loop.
+		listViewRecords.SelectedIndexChanged -= listViewRecords_SelectedIndexChanged;
+		listViewRecords.SelectedIndices.Clear();
+		listViewRecords.Items[index].Selected = true;
+		listViewRecords.SelectedIndexChanged += listViewRecords_SelectedIndexChanged;
+
 		textBoxName.Text = Records[index, ColumnsIndex.Name];
 		textBoxCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
 		textBoxStructure.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
@@ -212,7 +218,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// When the user selects a record from the list, 9.9 - 1
-	private void listViewRecords_SelectedIndexChanged(object sender, EventArgs e)
+	private void listViewRecords_SelectedIndexChanged(object? sender, EventArgs e)
 	{
 		// If the user has unselected, clear the textboxes
 		if (listViewRecords.SelectedIndices.Count == 0)
@@ -240,5 +246,48 @@ public partial class DataEditorForm : Form
 
 		if (result == DialogResult.Yes)
 			ClearTextboxes();
+	}
+
+	private void textBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+	{
+		// Redirect it to act as if the search button was pressed if the enter key is.
+		if (e.KeyChar == (char)Keys.Enter)
+		{
+			e.Handled = true;
+			buttonSearch_Click(sender, e);
+		}
+			
+	}
+
+	// 9.7 - searching
+	private void buttonSearch_Click(object sender, EventArgs e)
+	{
+		string query = textBoxSearch.Text;
+
+		textBoxSearch.Clear();
+		textBoxSearch.Focus();
+
+		// If the query is empty or just a tilde, show an error message and return.
+		if (string.IsNullOrWhiteSpace(query) || query == "~")
+		{
+			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = @"Last search failed. No valid query.";
+			return;
+		}
+
+		// Perform the search.
+		int index = BinarySearchForName(query);
+
+		if (index == -1) // Wasn't found
+		{
+			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found", 
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
+			return;
+		}
+
+		// Select the found record
+		SelectRecord(index);
 	}
 }
