@@ -211,6 +211,7 @@ public partial class DataEditorForm : Form
 		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
 		ptr++;
 
+		ClearTextboxes();
 		BubbleSortByNameAsc();
 		ListViewDisplayRecords();
 	}
@@ -232,7 +233,7 @@ public partial class DataEditorForm : Form
 	}
 
 	/// <summary>
-	/// Delete a record from the data editor.
+	/// Delete a record from the data editor - 9.4
 	/// </summary>
 	private void DeleteRecord(int index)
 	{
@@ -242,8 +243,30 @@ public partial class DataEditorForm : Form
 		}
 		ptr--;
 
+		ClearTextboxes();
 		BubbleSortByNameAsc();
 		ListViewDisplayRecords();
+
+		statusStripFeedbackLabel.Text = @"Object deleted successfully.";
+	}
+
+	// BUtton Event handler, checks the selection too - 9.4
+	private void buttonDelete_Click(object sender, EventArgs e)
+	{
+		if (listViewRecords.SelectedItems.Count < 1)
+		{
+			MessageBox.Show(@"No record selected", null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
+		}
+
+		int idx = listViewRecords.SelectedItems[0].Index;
+		var dialogResult = MessageBox.Show($@"Are you sure you want to delete record {Records[idx, ColumnsIndex.Name]}?",
+			null, MessageBoxButtons.YesNo);
+
+		if (dialogResult == DialogResult.Yes)
+			DeleteRecord(idx);
+		else
+			statusStripFeedbackLabel.Text = @"Deletion aborted..";
 	}
 
 	#endregion
@@ -480,8 +503,8 @@ public partial class DataEditorForm : Form
 	// File -> Clear, Clears all records
 	private void newToolStripMenuItem_Click(object sender, EventArgs e)
 	{
-		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear", 
-			    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
 		{
 			InitializeRecords();
 			ListViewDisplayRecords();
