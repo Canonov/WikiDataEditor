@@ -134,6 +134,50 @@ public partial class DataEditorForm : Form
 		return -1; // not found
 	}
 
+	// SEARCH EVENTS
+	private void textBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+	{
+		// Redirect it to act as if the search button was pressed if the enter key is.
+		if (e.KeyChar == (char)Keys.Enter)
+		{
+			e.Handled = true;
+			buttonSearch_Click(sender, e);
+		}
+
+	}
+
+	// 9.7 - searching
+	private void buttonSearch_Click(object sender, EventArgs e)
+	{
+		string query = textBoxSearch.Text;
+
+		textBoxSearch.Clear();
+		textBoxSearch.Focus();
+
+		// If the query is empty or just a tilde, show an error message and return.
+		if (string.IsNullOrWhiteSpace(query) || query == "~")
+		{
+			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = @"Last search failed. No valid query.";
+			return;
+		}
+
+		// Perform the search.
+		int index = BinarySearchForName(query);
+
+		if (index == -1) // Wasn't found
+		{
+			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
+			return;
+		}
+
+		// Select the found record
+		SelectRecord(index);
+	}
+
 	#endregion
 
 	#region Record Array Management
@@ -248,46 +292,4 @@ public partial class DataEditorForm : Form
 			ClearTextboxes();
 	}
 
-	private void textBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
-	{
-		// Redirect it to act as if the search button was pressed if the enter key is.
-		if (e.KeyChar == (char)Keys.Enter)
-		{
-			e.Handled = true;
-			buttonSearch_Click(sender, e);
-		}
-			
-	}
-
-	// 9.7 - searching
-	private void buttonSearch_Click(object sender, EventArgs e)
-	{
-		string query = textBoxSearch.Text;
-
-		textBoxSearch.Clear();
-		textBoxSearch.Focus();
-
-		// If the query is empty or just a tilde, show an error message and return.
-		if (string.IsNullOrWhiteSpace(query) || query == "~")
-		{
-			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = @"Last search failed. No valid query.";
-			return;
-		}
-
-		// Perform the search.
-		int index = BinarySearchForName(query);
-
-		if (index == -1) // Wasn't found
-		{
-			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found", 
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
-			return;
-		}
-
-		// Select the found record
-		SelectRecord(index);
-	}
 }
