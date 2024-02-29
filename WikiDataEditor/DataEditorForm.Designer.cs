@@ -75,7 +75,7 @@
 			listViewRecords.FullRowSelect = true;
 			listViewRecords.GridLines = true;
 			listViewRecords.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-			listViewRecords.Location = new Point(5, 37);
+			listViewRecords.Location = new Point(232, 37);
 			listViewRecords.MultiSelect = false;
 			listViewRecords.Name = "listViewRecords";
 			listViewRecords.Size = new Size(320, 434);
@@ -190,7 +190,7 @@
 			groupBoxRecordValues.Controls.Add(labelName);
 			groupBoxRecordValues.Controls.Add(textBoxName);
 			groupBoxRecordValues.Font = new Font("Tahoma", 9F);
-			groupBoxRecordValues.Location = new Point(333, 37);
+			groupBoxRecordValues.Location = new Point(5, 37);
 			groupBoxRecordValues.Name = "groupBoxRecordValues";
 			groupBoxRecordValues.Size = new Size(221, 221);
 			groupBoxRecordValues.TabIndex = 8;
@@ -271,7 +271,7 @@
 			groupBoxControls.Controls.Add(buttonDelete);
 			groupBoxControls.Controls.Add(buttonAdd);
 			groupBoxControls.Font = new Font("Tahoma", 9F);
-			groupBoxControls.Location = new Point(333, 264);
+			groupBoxControls.Location = new Point(5, 254);
 			groupBoxControls.Name = "groupBoxControls";
 			groupBoxControls.Size = new Size(221, 102);
 			groupBoxControls.TabIndex = 9;
@@ -324,16 +324,16 @@
 			groupBoxSearch.Controls.Add(buttonSearch);
 			groupBoxSearch.Controls.Add(textBox1);
 			groupBoxSearch.Font = new Font("Tahoma", 9F);
-			groupBoxSearch.Location = new Point(333, 372);
+			groupBoxSearch.Location = new Point(5, 362);
 			groupBoxSearch.Name = "groupBoxSearch";
-			groupBoxSearch.Size = new Size(221, 99);
+			groupBoxSearch.Size = new Size(221, 109);
 			groupBoxSearch.TabIndex = 10;
 			groupBoxSearch.TabStop = false;
 			groupBoxSearch.Text = "Search";
 			// 
 			// buttonSearch
 			// 
-			buttonSearch.Location = new Point(6, 59);
+			buttonSearch.Location = new Point(6, 52);
 			buttonSearch.Name = "buttonSearch";
 			buttonSearch.Size = new Size(203, 23);
 			buttonSearch.TabIndex = 1;
@@ -342,7 +342,7 @@
 			// 
 			// textBox1
 			// 
-			textBox1.Location = new Point(6, 30);
+			textBox1.Location = new Point(6, 23);
 			textBox1.Name = "textBox1";
 			textBox1.PlaceholderText = "Enter Search Query";
 			textBox1.Size = new Size(203, 22);
