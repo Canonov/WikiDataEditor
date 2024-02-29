@@ -41,6 +41,8 @@ public partial class DataEditorForm : Form
 					Records[row, col] = $"{col}_{row + 1}";
 			}
 		}
+
+		BubbleSortByNameAsc();
 	}
 
 	private void DataEditorForm_Load(object sender, EventArgs e)
@@ -101,6 +103,35 @@ public partial class DataEditorForm : Form
 				break;
 		}
 
+	}
+
+	/// <summary>
+	/// Binary search for a record by name - 9.7
+	/// </summary>
+	/// <remarks>Make sure the records are sorted by name beforehand</remarks>
+	/// <returns>The index of the row if it's found; -1 if it's not found.</returns>
+	private static int BinarySearchForName(string query)
+	{
+		int left = 0;
+		int right = ptr - 1;
+
+		while (left <= right)
+		{
+			int mid = left + (right - left) / 2;
+
+			// Check if the query is present at mid
+			int comparison = string.Compare(Records[mid, ColumnsIndex.Name], query, StringComparison.Ordinal);
+
+			if (comparison == 0) // found at mid
+				return mid;
+			else if (comparison < 0) // query is greater, ignore left half
+				left = mid + 1;
+			else // query is smaller, ignore right half
+				right = mid - 1;
+
+		}
+
+		return -1; // not found
 	}
 
 	#endregion
