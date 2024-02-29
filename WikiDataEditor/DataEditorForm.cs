@@ -20,7 +20,7 @@ public partial class DataEditorForm : Form
 	public const int Columns = 4;
 	public static string[,] Records = new string[Rows, Columns];
 
-	private static int _ptr = 0; // represents the next empty cell
+	private static int ptr = 0; // represents the next empty cell
 
 	public DataEditorForm()
 	{
@@ -30,7 +30,7 @@ public partial class DataEditorForm : Form
 		// Fill records with dummy data, for testing stuff.
 		for (int row = 0; row < Rows - 4; row++)
 		{
-			_ptr++;
+			ptr++;
 			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
 
 			for (int col = 1; col < Columns; col++)
@@ -111,7 +111,7 @@ public partial class DataEditorForm : Form
 	{
 		if (string.IsNullOrWhiteSpace(name) || name == "~")
 			return (false, "Name is empty");
-		if (_ptr >= Rows)
+		if (ptr >= Rows)
 			return (false, "Insufficient space left in collection.");
 
 		return (true, null);
@@ -119,11 +119,11 @@ public partial class DataEditorForm : Form
 
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
-		Records[_ptr, ColumnsIndex.Name] = name;
-		Records[_ptr, ColumnsIndex.Category] = category ?? "~";
-		Records[_ptr, ColumnsIndex.Structure] = structure ?? "~";
-		Records[_ptr, ColumnsIndex.Definition] = definition ?? "~";
-		_ptr++;
+		Records[ptr, ColumnsIndex.Name] = name;
+		Records[ptr, ColumnsIndex.Category] = category ?? "~";
+		Records[ptr, ColumnsIndex.Structure] = structure ?? "~";
+		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
+		ptr++;
 	}
 
 	#endregion
@@ -160,7 +160,7 @@ public partial class DataEditorForm : Form
 		BubbleSortByNameAsc();
 		listViewRecords.Items.Clear();
 
-		for (int row = 0; row < _ptr; row++)
+		for (int row = 0; row < ptr; row++)
 		{
 			// Create an item for the name, and a sub item for the category to display.
 			var listViewItem = new ListViewItem
