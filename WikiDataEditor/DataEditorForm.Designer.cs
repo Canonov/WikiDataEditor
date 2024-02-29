@@ -165,6 +165,7 @@
 			saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
 			saveToolStripMenuItem.Size = new Size(200, 22);
 			saveToolStripMenuItem.Text = "&Save to File";
+			saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
 			// 
 			// toolStripSeparator1
 			// 

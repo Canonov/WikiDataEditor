@@ -1,8 +1,7 @@
 namespace WikiDataEditor;
 
 // 30048254
-// Program for editing wiki entries, using a 2d record data structure.
-
+// Program for editing wiki entries, using a 2d record data structure
 public partial class DataEditorForm : Form
 {
 
@@ -200,6 +199,76 @@ public partial class DataEditorForm : Form
 		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
 		ptr++;
 	}
+
+	#endregion
+
+	#region File IO
+
+	/// <summary>
+	/// Prompt the user to save the file. 9.10
+	/// </summary>
+	private void PromptFileSave()
+	{
+		const string defaultFileName = "definitions.dat";
+
+		using var saveFileDialog = new SaveFileDialog();
+		saveFileDialog.InitialDirectory = Application.StartupPath;
+		saveFileDialog.FileName = defaultFileName;
+		saveFileDialog.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
+		saveFileDialog.AddExtension = true;
+		saveFileDialog.CheckWriteAccess = true;
+		saveFileDialog.DefaultExt = "dat";
+
+		if (ptr == 0)
+		{
+			MessageBox.Show(@"No records to save.", @"Unable to save",
+				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			return;
+		}
+
+		if (saveFileDialog.ShowDialog() == DialogResult.OK)
+		{
+			SaveToFile(saveFileDialog.FileName);
+		}
+		else
+		{
+			statusStrip.Text = @"Saving cancelled...";
+		}
+	}
+
+	/// <summary>
+	/// Save the records to a file. 9.10
+	/// </summary>
+	private void SaveToFile(string filepath)
+	{
+		try
+		{
+			BubbleSortByNameAsc(); // make sure records are sorted
+
+			using (var file = new FileStream(filepath, FileMode.Create))
+			using (var writer = new BinaryWriter(file))
+			{
+				for (int row = 0; row < Rows; row++)
+				{
+					for (int col = 0; col < Columns; col++)
+					{
+						writer.Write(Records[row, col]);
+					}
+				}
+			}
+
+			statusStrip.Text = $@"Saved data to ""{filepath}""";
+		}
+		catch (Exception ex)
+		{
+			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = $@"Saving failed ({ex.Message})";
+		}
+	}
+
+	// Event to handle the save button - 9.10
+	private void saveToolStripMenuItem_Click(object sender, EventArgs e) => PromptFileSave();
 
 	#endregion
 
