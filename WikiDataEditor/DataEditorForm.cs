@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 namespace WikiDataEditor;
 
 // 30048254
@@ -29,7 +31,7 @@ public partial class DataEditorForm : Form
 		InitializeRecords();
 
 		// Fill records with dummy data, for testing stuff.
-		for (int row = 0; row < Rows; row++)
+		for (int row = 0; row < Rows - 4; row++)
 		{
 			ptr++;
 			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
@@ -183,7 +185,11 @@ public partial class DataEditorForm : Form
 
 	#region Record Array Management
 
-	private (bool valid, string? reason) CanAddRecord(string name, string? category, string? structure, string? definition)
+	/// <summary>
+	/// Checks if a record can be added to the data editor. 9.2
+	/// </summary>
+	/// <returns>A tuple indicating whether the record can be added and the reason if it cannot be added.</returns>
+	private (bool isValid, string? reason) CanAddRecord(string name)
 	{
 		if (string.IsNullOrWhiteSpace(name) || name == "~")
 			return (false, "Name is empty");
@@ -193,6 +199,9 @@ public partial class DataEditorForm : Form
 		return (true, null);
 	}
 
+	/// <summary>
+	/// Add a new record to the data editor. 9.2
+	/// </summary>
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
 		Records[ptr, ColumnsIndex.Name] = name;
@@ -200,6 +209,40 @@ public partial class DataEditorForm : Form
 		Records[ptr, ColumnsIndex.Structure] = structure ?? "~";
 		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
 		ptr++;
+
+		BubbleSortByNameAsc();
+		ListViewDisplayRecords();
+	}
+
+	// Event handler for add button, checks if it can add first. 9.2
+	private void buttonAdd_Click(object sender, EventArgs e)
+	{
+		var check = CanAddRecord(textBoxName.Text);
+		if (!check.isValid)
+		{
+			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {textBoxName.Text} to index {ptr}",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			textBoxName.Focus();
+			return;
+		}
+
+		AddRecord(textBoxName.Text, textBoxCategory.Text, textBoxStructure.Text, textBoxDefinition.Text);
+	}
+
+	/// <summary>
+	/// Delete a record from the data editor.
+	/// </summary>
+	private void DeleteRecord(int index)
+	{
+		for (int col = 0; col < Columns; col++)
+		{
+			Records[index, col] = "~";
+		}
+		ptr--;
+
+		BubbleSortByNameAsc();
+		ListViewDisplayRecords();
 	}
 
 	#endregion
@@ -278,7 +321,7 @@ public partial class DataEditorForm : Form
 		var result = MessageBox.Show(@"Be warned that opening a file will erase all current records, are you sure?",
 			@"Open File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-		if (result == DialogResult.Yes) 
+		if (result == DialogResult.Yes)
 			PromptFileLoad();
 	}
 
@@ -380,7 +423,6 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void ListViewDisplayRecords()
 	{
-		BubbleSortByNameAsc();
 		listViewRecords.Items.Clear();
 
 		for (int row = 0; row < ptr; row++)
@@ -433,6 +475,5 @@ public partial class DataEditorForm : Form
 		if (result == DialogResult.Yes)
 			ClearTextboxes();
 	}
-
 
 }

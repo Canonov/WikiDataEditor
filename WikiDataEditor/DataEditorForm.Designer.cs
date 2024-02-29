@@ -333,6 +333,7 @@
 			buttonAdd.TabIndex = 0;
 			buttonAdd.Text = "ADD";
 			buttonAdd.UseVisualStyleBackColor = true;
+			buttonAdd.Click += buttonAdd_Click;
 			// 
 			// groupBoxSearch
 			// 
