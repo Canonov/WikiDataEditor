@@ -35,6 +35,7 @@
 			columnHeaderCategory = new ColumnHeader();
 			textBoxName = new TextBox();
 			statusStrip = new StatusStrip();
+			statusStripFeedbackLabel = new ToolStripStatusLabel();
 			menuStrip = new MenuStrip();
 			fileToolStripMenuItem = new ToolStripMenuItem();
 			newToolStripMenuItem = new ToolStripMenuItem();
@@ -60,6 +61,7 @@
 			buttonSearch = new Button();
 			textBoxSearch = new TextBox();
 			toolTips = new ToolTip(components);
+			statusStrip.SuspendLayout();
 			menuStrip.SuspendLayout();
 			groupBoxRecordValues.SuspendLayout();
 			groupBoxControls.SuspendLayout();
@@ -108,11 +110,21 @@
 			// statusStrip
 			// 
 			statusStrip.BackColor = SystemColors.Control;
+			statusStrip.Items.AddRange(new ToolStripItem[] { statusStripFeedbackLabel });
 			statusStrip.Location = new Point(0, 474);
 			statusStrip.Name = "statusStrip";
 			statusStrip.Size = new Size(562, 22);
 			statusStrip.TabIndex = 6;
 			statusStrip.Text = "statusStrip1";
+			// 
+			// statusStripFeedbackLabel
+			// 
+			statusStripFeedbackLabel.AutoSize = false;
+			statusStripFeedbackLabel.Font = new Font("Tahoma", 9F);
+			statusStripFeedbackLabel.Name = "statusStripFeedbackLabel";
+			statusStripFeedbackLabel.Size = new Size(281, 17);
+			statusStripFeedbackLabel.Text = "Ready...";
+			statusStripFeedbackLabel.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// menuStrip
 			// 
@@ -369,6 +381,8 @@
 			Name = "DataEditorForm";
 			Text = "Wiki Data Editor";
 			Load += DataEditorForm_Load;
+			statusStrip.ResumeLayout(false);
+			statusStrip.PerformLayout();
 			menuStrip.ResumeLayout(false);
 			menuStrip.PerformLayout();
 			groupBoxRecordValues.ResumeLayout(false);
@@ -412,5 +426,6 @@
 		private Button buttonSearch;
 		private TextBox textBoxSearch;
 		private ToolTip toolTips;
+		private ToolStripStatusLabel statusStripFeedbackLabel;
 	}
 }

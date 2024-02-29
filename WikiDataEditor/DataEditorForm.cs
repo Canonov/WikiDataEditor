@@ -29,7 +29,7 @@ public partial class DataEditorForm : Form
 		InitializeRecords();
 
 		// Fill records with dummy data, for testing stuff.
-		for (int row = 0; row < Rows - 4; row++)
+		for (int row = 0; row < Rows; row++)
 		{
 			ptr++;
 			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
@@ -160,7 +160,7 @@ public partial class DataEditorForm : Form
 		{
 			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = @"Last search failed. No valid query.";
+			statusStripFeedbackLabel.Text = @"Last search failed. No valid query.";
 			return;
 		}
 
@@ -171,7 +171,7 @@ public partial class DataEditorForm : Form
 		{
 			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
+			statusStripFeedbackLabel.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
 			return;
 		}
 
@@ -219,7 +219,7 @@ public partial class DataEditorForm : Form
 		if (openFileDialog.ShowDialog() == DialogResult.OK)
 			LoadFromFile(openFileDialog.FileName);
 		else
-			statusStrip.Text = @"Loading cancelled...";
+			statusStripFeedbackLabel.Text = @"Loading cancelled...";
 	}
 
 	/// <summary>
@@ -262,13 +262,13 @@ public partial class DataEditorForm : Form
 			ListViewDisplayRecords();
 
 
-			statusStrip.Text = $@"Loaded data from ""{filePath}""";
+			statusStripFeedbackLabel.Text = $@"Loaded data from ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
 			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = $@"Loading failed ({ex.Message})";
+			statusStripFeedbackLabel.Text = $@"Loading failed ({ex.Message})";
 		}
 	}
 
@@ -306,7 +306,7 @@ public partial class DataEditorForm : Form
 		if (saveFileDialog.ShowDialog() == DialogResult.OK)
 			SaveToFile(saveFileDialog.FileName);
 		else
-			statusStrip.Text = @"Saving cancelled...";
+			statusStripFeedbackLabel.Text = @"Saving cancelled...";
 	}
 
 	/// <summary>
@@ -330,13 +330,13 @@ public partial class DataEditorForm : Form
 				}
 			}
 
-			statusStrip.Text = $@"Saved data to ""{filePath}""";
+			statusStripFeedbackLabel.Text = $@"Saved data to ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
 			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStrip.Text = $@"Saving failed ({ex.Message})";
+			statusStripFeedbackLabel.Text = $@"Saving failed ({ex.Message})";
 		}
 	}
 
