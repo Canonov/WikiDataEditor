@@ -48,7 +48,66 @@ public partial class DataEditorForm : Form
 		ListViewDisplayRecords();
 	}
 
-	private (bool can, string? reason) CanAddRecord(string name, string? category, string? structure, string? definition)
+	/// <summary>
+	/// Set each record to a default value
+	/// </summary>
+	private static void InitializeRecords()
+	{
+		for (int row = 0; row < Rows; row++)
+		{
+			for (int col = 0; col < Columns; col++)
+			{
+				Records[row, col] = "~";
+			}
+		}
+	}
+
+	#region Sorting and Searching
+
+	/// <summary>
+	/// Swap the records at the specified indices in the 2d array - 9.6
+	/// </summary>
+	private static void Swap(int rowA, int rowB)
+	{
+		// Deconstruction swap for every value in both rows
+		for (int i = 0; i < Columns; i++)
+		{
+			(Records[rowA, i], Records[rowB, i]) = (Records[rowB, i], Records[rowA, i]);
+		}
+	}
+
+	/// <summary>
+	/// Sort the records by name in ascending order - 9.6
+	/// </summary>
+	private static void BubbleSortByNameAsc()
+	{
+		int i, j;
+		bool swapped;
+
+		for (i = 0; i < Rows - 1; i++)
+		{
+			swapped = false;
+			for (j = 0; j < Rows - i - 1; j++)
+			{
+				if (string.Compare(Records[j, ColumnsIndex.Name], Records[j + 1, ColumnsIndex.Name], StringComparison.Ordinal) > 0)
+				{
+					// Swap row [j] and row [j+1]
+					Swap(j, j + 1);
+					swapped = true;
+				}
+			}
+
+			if (!swapped)
+				break;
+		}
+
+	}
+
+	#endregion
+
+	#region Record Array Management
+
+	private (bool valid, string? reason) CanAddRecord(string name, string? category, string? structure, string? definition)
 	{
 		if (string.IsNullOrWhiteSpace(name) || name == "~")
 			return (false, "Name is empty");
@@ -67,19 +126,7 @@ public partial class DataEditorForm : Form
 		_ptr++;
 	}
 
-	/// <summary>
-	/// Set each record to a default value
-	/// </summary>
-	private static void InitializeRecords()
-	{
-		for (int row = 0; row < Rows; row++)
-		{
-			for (int col = 0; col < Columns; col++)
-			{
-				Records[row, col] = "~";
-			}
-		}
-	}
+	#endregion
 
 	// Clears the currently selected textboxes - 9.5
 	private void ClearTextboxes()
@@ -110,6 +157,7 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void ListViewDisplayRecords()
 	{
+		BubbleSortByNameAsc();
 		listViewRecords.Items.Clear();
 
 		for (int row = 0; row < _ptr; row++)
