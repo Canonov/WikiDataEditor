@@ -75,6 +75,7 @@
 			listViewRecords.FullRowSelect = true;
 			listViewRecords.GridLines = true;
 			listViewRecords.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+			listViewRecords.ImeMode = ImeMode.On;
 			listViewRecords.Location = new Point(232, 37);
 			listViewRecords.MultiSelect = false;
 			listViewRecords.Name = "listViewRecords";
@@ -87,12 +88,12 @@
 			// columnHeaderName
 			// 
 			columnHeaderName.Text = "Name";
-			columnHeaderName.Width = 220;
+			columnHeaderName.Width = 217;
 			// 
 			// columnHeaderCategory
 			// 
 			columnHeaderCategory.Text = "Category";
-			columnHeaderCategory.Width = 100;
+			columnHeaderCategory.Width = 97;
 			// 
 			// textBoxName
 			// 
