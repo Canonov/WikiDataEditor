@@ -152,7 +152,8 @@
 			newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			newToolStripMenuItem.Name = "newToolStripMenuItem";
 			newToolStripMenuItem.Size = new Size(200, 22);
-			newToolStripMenuItem.Text = "Clear";
+			newToolStripMenuItem.Text = "Clear all Records";
+			newToolStripMenuItem.Click += newToolStripMenuItem_Click;
 			// 
 			// openToolStripMenuItem
 			// 

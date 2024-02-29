@@ -58,6 +58,7 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private static void InitializeRecords()
 	{
+		ptr = 0;
 		for (int row = 0; row < Rows; row++)
 		{
 			for (int col = 0; col < Columns; col++)
@@ -476,4 +477,14 @@ public partial class DataEditorForm : Form
 			ClearTextboxes();
 	}
 
+	// File -> Clear, Clears all records
+	private void newToolStripMenuItem_Click(object sender, EventArgs e)
+	{
+		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear", 
+			    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+		{
+			InitializeRecords();
+			ListViewDisplayRecords();
+		}
+	}
 }
