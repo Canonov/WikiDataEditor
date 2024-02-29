@@ -14,6 +14,8 @@ public partial class DataEditorForm : Form
 						 Definition = 3;
 	}
 
+	private const string DefaultDataFileName = "definitions.dat";
+
 	// 9.1 - 2d Array and Column Indexes
 	public const int Rows = 12;
 	public const int Columns = 4;
@@ -205,15 +207,90 @@ public partial class DataEditorForm : Form
 	#region File IO
 
 	/// <summary>
+	/// Prompt the user to save the file. 9.11
+	/// </summary>
+	private void PromptFileLoad()
+	{
+		using var openFileDialog = new OpenFileDialog();
+		openFileDialog.InitialDirectory = Application.StartupPath;
+		openFileDialog.FileName = DefaultDataFileName;
+		openFileDialog.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
+
+		if (openFileDialog.ShowDialog() == DialogResult.OK)
+			LoadFromFile(openFileDialog.FileName);
+		else
+			statusStrip.Text = @"Loading cancelled...";
+	}
+
+	/// <summary>
+	/// Load the records from a file. 9.11
+	/// </summary>
+	private void LoadFromFile(string filePath)
+	{
+		try
+		{
+			using var file = new FileStream(filePath, FileMode.Open);
+			using var reader = new BinaryReader(file);
+
+			int newPtr = -1;
+			string[,] newArray = new string[Rows, Columns];
+
+			for (int row = 0; row < Rows; row++)
+			{
+				for (int col = 0; col < Columns; col++)
+				{
+					try
+					{
+						newArray[row, col] = reader.ReadString();
+
+						if (newPtr == -1 && col == 0 && newArray[row, col] == "~")
+							newPtr = row;
+					}
+					catch (Exception)
+					{
+						MessageBox.Show(@$"An Exception occurred while reading at ({row}, {col})");
+						throw; // send it up
+					}
+				}
+			}
+
+			// If it wasn't found then it's probably full.
+			newPtr = newPtr == -1 ? Rows + 1 : newPtr;
+
+			Records = newArray;
+			ptr = newPtr;
+			ListViewDisplayRecords();
+
+
+			statusStrip.Text = $@"Loaded data from ""{filePath}""";
+		}
+		catch (Exception ex)
+		{
+			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusStrip.Text = $@"Loading failed ({ex.Message})";
+		}
+	}
+
+	// Event handler for open from file button - 9.11
+	private void openToolStripMenuItem_Click(object sender, EventArgs e)
+	{
+		var result = MessageBox.Show(@"Be warned that opening a file will erase all current records, are you sure?",
+			@"Open File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+		if (result == DialogResult.Yes) 
+			PromptFileLoad();
+	}
+
+
+	/// <summary>
 	/// Prompt the user to save the file. 9.10
 	/// </summary>
 	private void PromptFileSave()
 	{
-		const string defaultFileName = "definitions.dat";
-
 		using var saveFileDialog = new SaveFileDialog();
 		saveFileDialog.InitialDirectory = Application.StartupPath;
-		saveFileDialog.FileName = defaultFileName;
+		saveFileDialog.FileName = DefaultDataFileName;
 		saveFileDialog.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
 		saveFileDialog.AddExtension = true;
 		saveFileDialog.CheckWriteAccess = true;
@@ -227,25 +304,21 @@ public partial class DataEditorForm : Form
 		}
 
 		if (saveFileDialog.ShowDialog() == DialogResult.OK)
-		{
 			SaveToFile(saveFileDialog.FileName);
-		}
 		else
-		{
 			statusStrip.Text = @"Saving cancelled...";
-		}
 	}
 
 	/// <summary>
 	/// Save the records to a file. 9.10
 	/// </summary>
-	private void SaveToFile(string filepath)
+	private void SaveToFile(string filePath)
 	{
 		try
 		{
 			BubbleSortByNameAsc(); // make sure records are sorted
 
-			using (var file = new FileStream(filepath, FileMode.Create))
+			using (var file = new FileStream(filePath, FileMode.Create))
 			using (var writer = new BinaryWriter(file))
 			{
 				for (int row = 0; row < Rows; row++)
@@ -257,7 +330,7 @@ public partial class DataEditorForm : Form
 				}
 			}
 
-			statusStrip.Text = $@"Saved data to ""{filepath}""";
+			statusStrip.Text = $@"Saved data to ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
@@ -360,5 +433,6 @@ public partial class DataEditorForm : Form
 		if (result == DialogResult.Yes)
 			ClearTextboxes();
 	}
+
 
 }

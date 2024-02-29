@@ -150,6 +150,7 @@
 			openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
 			openToolStripMenuItem.Size = new Size(200, 22);
 			openToolStripMenuItem.Text = "&Open from File";
+			openToolStripMenuItem.Click += openToolStripMenuItem_Click;
 			// 
 			// toolStripSeparator
 			// 
