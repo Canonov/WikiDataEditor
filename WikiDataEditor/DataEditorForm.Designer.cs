@@ -127,50 +127,55 @@
 			// fileToolStripMenuItem
 			// 
 			fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, openToolStripMenuItem, toolStripSeparator, saveToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
+			fileToolStripMenuItem.Font = new Font("Tahoma", 9F);
 			fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			fileToolStripMenuItem.Size = new Size(37, 20);
+			fileToolStripMenuItem.Size = new Size(36, 20);
 			fileToolStripMenuItem.Text = "&File";
 			// 
 			// newToolStripMenuItem
 			// 
+			newToolStripMenuItem.Font = new Font("Tahoma", 9F);
 			newToolStripMenuItem.Image = (Image)resources.GetObject("newToolStripMenuItem.Image");
 			newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			newToolStripMenuItem.Name = "newToolStripMenuItem";
-			newToolStripMenuItem.Size = new Size(196, 22);
+			newToolStripMenuItem.Size = new Size(200, 22);
 			newToolStripMenuItem.Text = "Clear";
 			// 
 			// openToolStripMenuItem
 			// 
+			openToolStripMenuItem.Font = new Font("Tahoma", 9F);
 			openToolStripMenuItem.Image = (Image)resources.GetObject("openToolStripMenuItem.Image");
 			openToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			openToolStripMenuItem.Name = "openToolStripMenuItem";
 			openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-			openToolStripMenuItem.Size = new Size(196, 22);
+			openToolStripMenuItem.Size = new Size(200, 22);
 			openToolStripMenuItem.Text = "&Open from File";
 			// 
 			// toolStripSeparator
 			// 
 			toolStripSeparator.Name = "toolStripSeparator";
-			toolStripSeparator.Size = new Size(193, 6);
+			toolStripSeparator.Size = new Size(197, 6);
 			// 
 			// saveToolStripMenuItem
 			// 
+			saveToolStripMenuItem.Font = new Font("Tahoma", 9F);
 			saveToolStripMenuItem.Image = (Image)resources.GetObject("saveToolStripMenuItem.Image");
 			saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
 			saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
-			saveToolStripMenuItem.Size = new Size(196, 22);
+			saveToolStripMenuItem.Size = new Size(200, 22);
 			saveToolStripMenuItem.Text = "&Save to File";
 			// 
 			// toolStripSeparator1
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
-			toolStripSeparator1.Size = new Size(193, 6);
+			toolStripSeparator1.Size = new Size(197, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
+			exitToolStripMenuItem.Font = new Font("Tahoma", 9F);
 			exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			exitToolStripMenuItem.Size = new Size(196, 22);
+			exitToolStripMenuItem.Size = new Size(200, 22);
 			exitToolStripMenuItem.Text = "E&xit";
 			// 
 			// groupBoxRecordValues
