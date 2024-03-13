@@ -1,5 +1,3 @@
-using System.Xml.Linq;
-
 namespace WikiDataEditor;
 
 // 30048254
@@ -23,7 +21,7 @@ public partial class DataEditorForm : Form
 	public const int Columns = 4;
 	public static string[,] Records = new string[Rows, Columns];
 
-	private static int ptr = 0; // represents the next empty cell
+	private static int _ptr; // represents the next empty cell, starts 0
 
 	public DataEditorForm()
 	{
@@ -33,7 +31,7 @@ public partial class DataEditorForm : Form
 		// Fill records with dummy data, for testing stuff.
 		for (int row = 0; row < Rows - 4; row++)
 		{
-			ptr++;
+			_ptr++;
 			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
 
 			for (int col = 1; col < Columns; col++)
@@ -48,7 +46,7 @@ public partial class DataEditorForm : Form
 		BubbleSortByNameAsc();
 	}
 
-	private void DataEditorForm_Load(object sender, EventArgs e)
+	private void OnFormLoad(object sender, EventArgs e)
 	{
 		ListViewDisplayRecords();
 	}
@@ -58,7 +56,7 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private static void InitializeRecords()
 	{
-		ptr = 0;
+		_ptr = 0;
 		for (int row = 0; row < Rows; row++)
 		{
 			for (int col = 0; col < Columns; col++)
@@ -88,11 +86,10 @@ public partial class DataEditorForm : Form
 	private static void BubbleSortByNameAsc()
 	{
 		int i, j;
-		bool swapped;
 
 		for (i = 0; i < Rows - 1; i++)
 		{
-			swapped = false;
+			bool swapped = false;
 			for (j = 0; j < Rows - i - 1; j++)
 			{
 				if (string.Compare(Records[j, ColumnsIndex.Name], Records[j + 1, ColumnsIndex.Name], StringComparison.Ordinal) > 0)
@@ -117,7 +114,7 @@ public partial class DataEditorForm : Form
 	private static int BinarySearchForName(string query)
 	{
 		int left = 0;
-		int right = ptr - 1;
+		int right = _ptr - 1;
 
 		while (left <= right)
 		{
@@ -139,24 +136,24 @@ public partial class DataEditorForm : Form
 	}
 
 	// SEARCH EVENTS
-	private void textBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+	private void TxtSearchOnKeyPress(object sender, KeyPressEventArgs e)
 	{
 		// Redirect it to act as if the search button was pressed if the enter key is.
 		if (e.KeyChar == (char)Keys.Enter)
 		{
 			e.Handled = true;
-			buttonSearch_Click(sender, e);
+			BtnSearchOnClick(sender, e);
 		}
 
 	}
 
 	// 9.7 - searching
-	private void buttonSearch_Click(object sender, EventArgs e)
+	private void BtnSearchOnClick(object sender, EventArgs e)
 	{
-		string query = textBoxSearch.Text;
+		string query = txtSearch.Text;
 
-		textBoxSearch.Clear();
-		textBoxSearch.Focus();
+		txtSearch.Clear();
+		txtSearch.Focus();
 
 		// If the query is empty or just a tilde, show an error message and return.
 		if (string.IsNullOrWhiteSpace(query) || query == "~")
@@ -194,7 +191,7 @@ public partial class DataEditorForm : Form
 	{
 		if (string.IsNullOrWhiteSpace(name) || name == "~")
 			return (false, "Name is empty");
-		if (ptr >= Rows)
+		if (_ptr >= Rows)
 			return (false, "Insufficient space left in collection.");
 
 		return (true, null);
@@ -205,11 +202,11 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
-		Records[ptr, ColumnsIndex.Name] = name;
-		Records[ptr, ColumnsIndex.Category] = category ?? "~";
-		Records[ptr, ColumnsIndex.Structure] = structure ?? "~";
-		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
-		ptr++;
+		Records[_ptr, ColumnsIndex.Name] = name;
+		Records[_ptr, ColumnsIndex.Category] = category ?? "~";
+		Records[_ptr, ColumnsIndex.Structure] = structure ?? "~";
+		Records[_ptr, ColumnsIndex.Definition] = definition ?? "~";
+		_ptr++;
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
@@ -217,19 +214,19 @@ public partial class DataEditorForm : Form
 	}
 
 	// Event handler for add button, checks if it can add first. 9.2
-	private void buttonAdd_Click(object sender, EventArgs e)
+	private void BtnAddClick(object sender, EventArgs e)
 	{
-		var check = CanAddRecord(textBoxName.Text);
+		var check = CanAddRecord(txtName.Text);
 		if (!check.isValid)
 		{
-			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {textBoxName.Text} to index {ptr}",
+			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {txtName.Text} to index {_ptr}",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-			textBoxName.Focus();
+			txtName.Focus();
 			return;
 		}
 
-		AddRecord(textBoxName.Text, textBoxCategory.Text, textBoxStructure.Text, textBoxDefinition.Text);
+		AddRecord(txtName.Text, txtCategory.Text, txtStructure.Text, txtDefinition.Text);
 	}
 
 	/// <summary>
@@ -241,7 +238,7 @@ public partial class DataEditorForm : Form
 		{
 			Records[index, col] = "~";
 		}
-		ptr--;
+		_ptr--;
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
@@ -251,7 +248,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// Event handler for edit button, checks if it can edit first. 9.3
-	private void buttonEdit_Click(object sender, EventArgs e)
+	private void BtnEditOnClick(object sender, EventArgs e)
 	{
 		if (listViewRecords.SelectedItems.Count == 0)
 		{
@@ -261,7 +258,7 @@ public partial class DataEditorForm : Form
 		}
 
 		int idx = listViewRecords.SelectedItems[0].Index;
-		EditRecord(idx, textBoxName.Text, textBoxCategory.Text, textBoxStructure.Text, textBoxDefinition.Text);
+		EditRecord(idx, txtName.Text, txtCategory.Text, txtStructure.Text, txtDefinition.Text);
 	}
 
 	/// <summary>
@@ -282,7 +279,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// BUtton Event handler, checks the selection too - 9.4
-	private void buttonDelete_Click(object sender, EventArgs e)
+	private void BtnDeleteOnClick(object sender, EventArgs e)
 	{
 		if (listViewRecords.SelectedItems.Count < 1)
 		{
@@ -356,7 +353,7 @@ public partial class DataEditorForm : Form
 			newPtr = newPtr == -1 ? Rows + 1 : newPtr;
 
 			Records = newArray;
-			ptr = newPtr;
+			_ptr = newPtr;
 			ListViewDisplayRecords();
 
 
@@ -394,7 +391,7 @@ public partial class DataEditorForm : Form
 		saveFileDialog.CheckWriteAccess = true;
 		saveFileDialog.DefaultExt = "dat";
 
-		if (ptr == 0)
+		if (_ptr == 0)
 		{
 			MessageBox.Show(@"No records to save.", @"Unable to save",
 				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -446,10 +443,10 @@ public partial class DataEditorForm : Form
 	// Clears the currently selected textboxes - 9.5
 	private void ClearTextboxes()
 	{
-		textBoxName.Clear();
-		textBoxCategory.Clear();
-		textBoxStructure.Clear();
-		textBoxDefinition.Clear();
+		txtName.Clear();
+		txtCategory.Clear();
+		txtStructure.Clear();
+		txtDefinition.Clear();
 	}
 
 	// Select a record at the specified index and display it on the textboxes, 9.9 - 2
@@ -458,15 +455,15 @@ public partial class DataEditorForm : Form
 		// used to put nothing instead of the tilde for an empty value.
 
 		// Disconnect the event handler and reconnect it after so it doesn't crash from an infinite loop.
-		listViewRecords.SelectedIndexChanged -= listViewRecords_SelectedIndexChanged;
+		listViewRecords.SelectedIndexChanged -= ListViewRecords_SelectedIndexChanged;
 		listViewRecords.SelectedIndices.Clear();
 		listViewRecords.Items[index].Selected = true;
-		listViewRecords.SelectedIndexChanged += listViewRecords_SelectedIndexChanged;
+		listViewRecords.SelectedIndexChanged += ListViewRecords_SelectedIndexChanged;
 
-		textBoxName.Text = Records[index, ColumnsIndex.Name];
-		textBoxCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
-		textBoxStructure.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
-		textBoxDefinition.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
+		txtName.Text = Records[index, ColumnsIndex.Name];
+		txtCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
+		txtStructure.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
+		txtDefinition.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
 	}
 
 	/// <summary>
@@ -476,7 +473,7 @@ public partial class DataEditorForm : Form
 	{
 		listViewRecords.Items.Clear();
 
-		for (int row = 0; row < ptr; row++)
+		for (int row = 0; row < _ptr; row++)
 		{
 			// Create an item for the name, and a sub item for the category to display.
 			var listViewItem = new ListViewItem
@@ -497,7 +494,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// When the user selects a record from the list, 9.9 - 1
-	private void listViewRecords_SelectedIndexChanged(object? sender, EventArgs e)
+	private void ListViewRecords_SelectedIndexChanged(object? sender, EventArgs e)
 	{
 		// If the user has unselected, clear the textboxes
 		if (listViewRecords.SelectedIndices.Count == 0)
@@ -512,13 +509,13 @@ public partial class DataEditorForm : Form
 	}
 
 	// When the user pressed the clear button, clear the textboxes
-	private void buttonClear_Click(object sender, EventArgs e)
+	private void BtnClearOnClick(object sender, EventArgs e)
 	{
 		ClearTextboxes();
 	}
 
 	// When the name textbox is double-clicked, offer to clear the textboxes
-	private void textBoxName_MouseDoubleClick(object sender, MouseEventArgs e)
+	private void TxtNameOnClick(object sender, MouseEventArgs e)
 	{
 		var result = MessageBox.Show(@"Would you like to clear the values?", @"Clear Items",
 			MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -528,7 +525,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// File -> Clear, Clears all records
-	private void newToolStripMenuItem_Click(object sender, EventArgs e)
+	private void NewToolStripMenuItemOnClick(object sender, EventArgs e)
 	{
 		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
