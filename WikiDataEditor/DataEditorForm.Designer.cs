@@ -303,6 +303,7 @@
 			buttonEdit.TabIndex = 3;
 			buttonEdit.Text = "EDIT";
 			buttonEdit.UseVisualStyleBackColor = true;
+			buttonEdit.Click += buttonEdit_Click;
 			// 
 			// buttonClear
 			// 

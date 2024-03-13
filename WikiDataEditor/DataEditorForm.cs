@@ -250,6 +250,37 @@ public partial class DataEditorForm : Form
 		statusStripFeedbackLabel.Text = @"Object deleted successfully.";
 	}
 
+	// Event handler for edit button, checks if it can edit first. 9.3
+	private void buttonEdit_Click(object sender, EventArgs e)
+	{
+		if (listViewRecords.SelectedItems.Count == 0)
+		{
+			MessageBox.Show(@"No Record was selected...", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			statusStripFeedbackLabel.Text = @"No record was selected to edit.";
+			return;
+		}
+
+		int idx = listViewRecords.SelectedItems[0].Index;
+		EditRecord(idx, textBoxName.Text, textBoxCategory.Text, textBoxStructure.Text, textBoxDefinition.Text);
+	}
+
+	/// <summary>
+	/// Edit a record at the specificed index - 9.3
+	/// </summary>
+	private void EditRecord(int index, string name, string? category, string? structure, string? definition)
+	{
+		Records[index, ColumnsIndex.Name] = name;
+		Records[index, ColumnsIndex.Category] = TildeIfEmptyOrNull(category);
+		Records[index, ColumnsIndex.Structure] = TildeIfEmptyOrNull(structure);
+		Records[index, ColumnsIndex.Definition] = TildeIfEmptyOrNull(definition);
+
+		ClearTextboxes();
+		BubbleSortByNameAsc();
+		ListViewDisplayRecords();
+
+		statusStripFeedbackLabel.Text = @"Edited record successfully.";
+	}
+
 	// BUtton Event handler, checks the selection too - 9.4
 	private void buttonDelete_Click(object sender, EventArgs e)
 	{
@@ -425,10 +456,6 @@ public partial class DataEditorForm : Form
 	private void SelectRecord(int index)
 	{
 		// used to put nothing instead of the tilde for an empty value.
-		static string EmptyIfTilde(string s)
-		{
-			return s == "~" ? "" : s;
-		}
 
 		// Disconnect the event handler and reconnect it after so it doesn't crash from an infinite loop.
 		listViewRecords.SelectedIndexChanged -= listViewRecords_SelectedIndexChanged;
@@ -509,5 +536,21 @@ public partial class DataEditorForm : Form
 			InitializeRecords();
 			ListViewDisplayRecords();
 		}
+	}
+
+	/// <summary>
+	/// Utility method to change a Tilde to an empty string.
+	/// </summary>
+	private static string EmptyIfTilde(string s) => s == "~" ? "" : s;
+
+	/// <summary>
+	/// Utility method to change a string to a tilde if it's empty or null.
+	/// </summary>
+	private static string TildeIfEmptyOrNull(string? s)
+	{
+		if (s == null)
+			return "~";
+
+		return s == string.Empty ? "~" : s;
 	}
 }
