@@ -58,27 +58,29 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private static void BubbleSortByNameAsc()
 	{
-		int i, j;
-
-		for (i = 0; i < Rows - 1; i++)
+		for (int row = 0; row < Rows - 1; row++)
 		{
+			// Flag to check if any swapping occurred in this pass
 			bool swapped = false;
-			for (j = 0; j < Rows - i - 1; j++)
+
+			// Loop over the records up to the part unsorted so far
+			for (int col = 0; col < Rows - row - 1; col++)
 			{
-				if (string.Compare(Records[j, ColumnsIndex.Name], Records[j + 1, ColumnsIndex.Name], StringComparison.Ordinal) > 0)
+				// Compare the names of the current and next record..
+				if (string.Compare(Records[col, ColumnsIndex.Name], Records[col + 1, ColumnsIndex.Name], StringComparison.Ordinal) > 0)
 				{
-					// Swap row [j] and row [j+1]
-					Swap(j, j + 1);
+					// ..and if the current record's name is greater than the next one's, swap them
+					Swap(col, col + 1);
 					swapped = true;
 				}
 			}
 
+			// If no two elements were swapped, then the list is sorted
 			if (!swapped)
 				break;
 		}
-
 	}
-
+	
 	/// <summary>
 	/// Binary search for a record by name - 9.7
 	/// </summary>
@@ -88,7 +90,8 @@ public partial class DataEditorForm : Form
 	{
 		int left = 0;
 		int right = _ptr - 1;
-
+		
+		// Continue the search as long as the left boundary does not exceed the right one
 		while (left <= right)
 		{
 			int mid = left + (right - left) / 2;
@@ -96,13 +99,20 @@ public partial class DataEditorForm : Form
 			// Check if the query is present at mid
 			int comparison = string.Compare(Records[mid, ColumnsIndex.Name], query, StringComparison.Ordinal);
 
-			if (comparison == 0) // found at mid
-				return mid;
-			else if (comparison < 0) // query is greater, ignore left half
-				left = mid + 1;
-			else // query is smaller, ignore right half
-				right = mid - 1;
-
+			switch (comparison)
+			{
+				// If the names are equal, the record is found
+				case 0:
+					return mid;
+				// query is greater, ignore left half
+				case < 0:
+					left = mid + 1;
+					break;
+				// query is smaller, ignore right half
+				default:
+					right = mid - 1;
+					break;
+			}
 		}
 
 		return -1; // not found
@@ -117,7 +127,6 @@ public partial class DataEditorForm : Form
 			e.Handled = true;
 			BtnSearchOnClick(sender, e);
 		}
-
 	}
 
 	// 9.7 - searching
