@@ -557,13 +557,7 @@ public partial class DataEditorForm : Form
 	/// <summary>
 	/// Utility method to change a string to a tilde if it's empty or null.
 	/// </summary>
-	private static string TildeIfEmptyOrNull(string? s)
-	{
-		if (s == null)
-			return "~";
-
-		return s == string.Empty ? "~" : s;
-	}
+	private static string TildeIfEmptyOrNull(string? s) => string.IsNullOrEmpty(s) ? "~" : s;
 	
 	// Clears the currently selected textboxes - 9.5
 	private void ClearTextboxes()
