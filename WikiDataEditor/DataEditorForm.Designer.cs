@@ -85,7 +85,7 @@
 			listViewRecords.TabIndex = 0;
 			listViewRecords.UseCompatibleStateImageBehavior = false;
 			listViewRecords.View = View.Details;
-			listViewRecords.SelectedIndexChanged += ListViewRecords_SelectedIndexChanged;
+			listViewRecords.SelectedIndexChanged += ListViewRecordsOnSelectedIndexChanged;
 			// 
 			// columnHeaderName
 			// 

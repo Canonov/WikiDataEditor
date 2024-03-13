@@ -48,37 +48,10 @@ public partial class DataEditorForm : Form
 
 	private void OnFormLoad(object sender, EventArgs e)
 	{
-		ListViewDisplayRecords();
-	}
-
-	/// <summary>
-	/// Set each record to a default value
-	/// </summary>
-	private static void InitializeRecords()
-	{
-		_ptr = 0;
-		for (int row = 0; row < Rows; row++)
-		{
-			for (int col = 0; col < Columns; col++)
-			{
-				Records[row, col] = "~";
-			}
-		}
+		DisplayRecords();
 	}
 
 	#region Sorting and Searching
-
-	/// <summary>
-	/// Swap the records at the specified indices in the 2d array - 9.6
-	/// </summary>
-	private static void Swap(int rowA, int rowB)
-	{
-		// Deconstruction swap for every value in both rows
-		for (int i = 0; i < Columns; i++)
-		{
-			(Records[rowA, i], Records[rowB, i]) = (Records[rowB, i], Records[rowA, i]);
-		}
-	}
 
 	/// <summary>
 	/// Sort the records by name in ascending order - 9.6
@@ -182,6 +155,21 @@ public partial class DataEditorForm : Form
 	#endregion
 
 	#region Record Array Management
+	
+	/// <summary>
+	/// Set each record to a default value
+	/// </summary>
+	private static void InitializeRecords()
+	{
+		_ptr = 0;
+		for (int row = 0; row < Rows; row++)
+		{
+			for (int col = 0; col < Columns; col++)
+			{
+				Records[row, col] = "~";
+			}
+		}
+	}
 
 	/// <summary>
 	/// Checks if a record can be added to the data editor. 9.2
@@ -210,7 +198,7 @@ public partial class DataEditorForm : Form
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
-		ListViewDisplayRecords();
+		DisplayRecords();
 	}
 
 	// Event handler for add button, checks if it can add first. 9.2
@@ -242,7 +230,7 @@ public partial class DataEditorForm : Form
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
-		ListViewDisplayRecords();
+		DisplayRecords();
 
 		statusStripFeedbackLabel.Text = @"Object deleted successfully.";
 	}
@@ -273,7 +261,7 @@ public partial class DataEditorForm : Form
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
-		ListViewDisplayRecords();
+		DisplayRecords();
 
 		statusStripFeedbackLabel.Text = @"Edited record successfully.";
 	}
@@ -296,6 +284,18 @@ public partial class DataEditorForm : Form
 		else
 			statusStripFeedbackLabel.Text = @"Deletion aborted..";
 	}
+	
+	/// <summary>
+	/// Swap the records at the specified indices in the 2d array - 9.6
+	/// </summary>
+	private static void Swap(int rowA, int rowB)
+	{
+		// Deconstruction swap for every value in both rows
+		for (int i = 0; i < Columns; i++)
+		{
+			(Records[rowA, i], Records[rowB, i]) = (Records[rowB, i], Records[rowA, i]);
+		}
+	}
 
 	#endregion
 
@@ -310,7 +310,7 @@ public partial class DataEditorForm : Form
 		openFileDialog.InitialDirectory = Application.StartupPath;
 		openFileDialog.FileName = DefaultDataFileName;
 		openFileDialog.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
-
+		
 		if (openFileDialog.ShowDialog() == DialogResult.OK)
 			LoadFromFile(openFileDialog.FileName);
 		else
@@ -324,12 +324,14 @@ public partial class DataEditorForm : Form
 	{
 		try
 		{
+			// Open the file for reading
 			using var file = new FileStream(filePath, FileMode.Open);
 			using var reader = new BinaryReader(file);
 
 			int newPtr = -1;
 			string[,] newArray = new string[Rows, Columns];
 
+			// Read data from the file into the newArray
 			for (int row = 0; row < Rows; row++)
 			{
 				for (int col = 0; col < Columns; col++)
@@ -338,25 +340,27 @@ public partial class DataEditorForm : Form
 					{
 						newArray[row, col] = reader.ReadString();
 
+						// If the newPtr has not been set and the current cell is empty, set newPtr to the current row
 						if (newPtr == -1 && col == 0 && newArray[row, col] == "~")
 							newPtr = row;
 					}
 					catch (Exception)
 					{
+						// If an exception occurs while reading, show a message and rethrow the exception
 						MessageBox.Show(@$"An Exception occurred while reading at ({row}, {col})");
 						throw; // send it up
 					}
 				}
 			}
 
-			// If it wasn't found then it's probably full.
+			// If newPtr was not set, it means the array is probably full, so set it to Rows + 1
 			newPtr = newPtr == -1 ? Rows + 1 : newPtr;
 
+			// Assign the newly filled array to Records and update _ptr
 			Records = newArray;
 			_ptr = newPtr;
-			ListViewDisplayRecords();
-
-
+			
+			DisplayRecords();
 			statusStripFeedbackLabel.Text = $@"Loaded data from ""{filePath}""";
 		}
 		catch (Exception ex)
@@ -439,15 +443,8 @@ public partial class DataEditorForm : Form
 	private void saveToolStripMenuItem_Click(object sender, EventArgs e) => PromptFileSave();
 
 	#endregion
-
-	// Clears the currently selected textboxes - 9.5
-	private void ClearTextboxes()
-	{
-		txtName.Clear();
-		txtCategory.Clear();
-		txtStructure.Clear();
-		txtDefinition.Clear();
-	}
+	
+	#region ListView Management
 
 	// Select a record at the specified index and display it on the textboxes, 9.9 - 2
 	private void SelectRecord(int index)
@@ -455,10 +452,10 @@ public partial class DataEditorForm : Form
 		// used to put nothing instead of the tilde for an empty value.
 
 		// Disconnect the event handler and reconnect it after so it doesn't crash from an infinite loop.
-		listViewRecords.SelectedIndexChanged -= ListViewRecords_SelectedIndexChanged;
+		listViewRecords.SelectedIndexChanged -= ListViewRecordsOnSelectedIndexChanged;
 		listViewRecords.SelectedIndices.Clear();
 		listViewRecords.Items[index].Selected = true;
-		listViewRecords.SelectedIndexChanged += ListViewRecords_SelectedIndexChanged;
+		listViewRecords.SelectedIndexChanged += ListViewRecordsOnSelectedIndexChanged;
 
 		txtName.Text = Records[index, ColumnsIndex.Name];
 		txtCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
@@ -469,7 +466,7 @@ public partial class DataEditorForm : Form
 	/// <summary>
 	/// Display the names and categories of the records to the listview. 9.8
 	/// </summary>
-	private void ListViewDisplayRecords()
+	private void DisplayRecords()
 	{
 		listViewRecords.Items.Clear();
 
@@ -494,7 +491,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// When the user selects a record from the list, 9.9 - 1
-	private void ListViewRecords_SelectedIndexChanged(object? sender, EventArgs e)
+	private void ListViewRecordsOnSelectedIndexChanged(object? sender, EventArgs e)
 	{
 		// If the user has unselected, clear the textboxes
 		if (listViewRecords.SelectedIndices.Count == 0)
@@ -507,12 +504,10 @@ public partial class DataEditorForm : Form
 			SelectRecord(selectedIndex);
 		}
 	}
+	
+	#endregion
 
-	// When the user pressed the clear button, clear the textboxes
-	private void BtnClearOnClick(object sender, EventArgs e)
-	{
-		ClearTextboxes();
-	}
+	#region Miscellaneous Events
 
 	// When the name textbox is double-clicked, offer to clear the textboxes
 	private void TxtNameOnClick(object sender, MouseEventArgs e)
@@ -523,17 +518,27 @@ public partial class DataEditorForm : Form
 		if (result == DialogResult.Yes)
 			ClearTextboxes();
 	}
+	
+	// When the user pressed the clear button, clear the textboxes
+	private void BtnClearOnClick(object sender, EventArgs e)
+	{
+		ClearTextboxes();
+	}
 
 	// File -> Clear, Clears all records
 	private void NewToolStripMenuItemOnClick(object sender, EventArgs e)
 	{
 		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+			    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
 		{
 			InitializeRecords();
-			ListViewDisplayRecords();
+			DisplayRecords();
 		}
 	}
+
+	#endregion
+
+	#region Utilities
 
 	/// <summary>
 	/// Utility method to change a Tilde to an empty string.
@@ -550,4 +555,15 @@ public partial class DataEditorForm : Form
 
 		return s == string.Empty ? "~" : s;
 	}
+	
+	// Clears the currently selected textboxes - 9.5
+	private void ClearTextboxes()
+	{
+		txtName.Clear();
+		txtCategory.Clear();
+		txtStructure.Clear();
+		txtDefinition.Clear();
+	}
+	
+	#endregion
 }
