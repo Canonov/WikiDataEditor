@@ -1,6 +1,8 @@
 namespace WikiDataEditor;
 
-// 30048254
+// Author: 30048254
+// Date: 15/03/2024
+// Assessment Task 1 - Portfolio : Wiki Data Editor
 // Program for editing wiki entries, using a 2d record data structure
 public partial class DataEditorForm : Form
 {
@@ -91,7 +93,7 @@ public partial class DataEditorForm : Form
 		int left = 0;
 		int right = _ptr - 1;
 		
-		// Continue the search as long as the left boundary does not exceed the right one
+		// Continue the search as long as the left boundary does not exceed the right one, if it's not, then it wasn't found.
 		while (left <= right)
 		{
 			int mid = left + (right - left) / 2;
