@@ -8,7 +8,7 @@ public partial class DataEditorForm : Form
 {
 
 	// Pseudo-Enum just so I don't have to use magic numbers
-	private static class ColumnsIndex
+	private static class Column
 	{
 		public const int Name = 0,
 						 Category = 1,
@@ -34,7 +34,7 @@ public partial class DataEditorForm : Form
 		for (int row = 0; row < Rows - 4; row++)
 		{
 			ptr++;
-			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
+			Records[row, Column.Name] = $"Row_{row + 1}";
 
 			for (int col = 1; col < Columns; col++)
 			{
@@ -69,7 +69,7 @@ public partial class DataEditorForm : Form
 			for (int col = 0; col < Rows - row - 1; col++)
 			{
 				// Compare the names of the current and next record..
-				if (string.Compare(Records[col, ColumnsIndex.Name], Records[col + 1, ColumnsIndex.Name], StringComparison.Ordinal) > 0)
+				if (string.Compare(Records[col, Column.Name], Records[col + 1, Column.Name], StringComparison.Ordinal) > 0)
 				{
 					// ..and if the current record's name is greater than the next one's, swap them
 					Swap(col, col + 1);
@@ -99,7 +99,7 @@ public partial class DataEditorForm : Form
 			int mid = left + (right - left) / 2;
 
 			// Check if the query is present at mid
-			int comparison = string.Compare(Records[mid, ColumnsIndex.Name], query, StringComparison.Ordinal);
+			int comparison = string.Compare(Records[mid, Column.Name], query, StringComparison.Ordinal);
 
 			switch (comparison)
 			{
@@ -201,10 +201,10 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
-		Records[ptr, ColumnsIndex.Name] = name;
-		Records[ptr, ColumnsIndex.Category] = category ?? "~";
-		Records[ptr, ColumnsIndex.Structure] = structure ?? "~";
-		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
+		Records[ptr, Column.Name] = name;
+		Records[ptr, Column.Category] = category ?? "~";
+		Records[ptr, Column.Structure] = structure ?? "~";
+		Records[ptr, Column.Definition] = definition ?? "~";
 		ptr++;
 
 		ClearTextboxes();
@@ -265,10 +265,10 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void EditRecord(int index, string name, string? category, string? structure, string? definition)
 	{
-		Records[index, ColumnsIndex.Name] = name;
-		Records[index, ColumnsIndex.Category] = TildeIfEmptyOrNull(category);
-		Records[index, ColumnsIndex.Structure] = TildeIfEmptyOrNull(structure);
-		Records[index, ColumnsIndex.Definition] = TildeIfEmptyOrNull(definition);
+		Records[index, Column.Name] = name;
+		Records[index, Column.Category] = TildeIfEmptyOrNull(category);
+		Records[index, Column.Structure] = TildeIfEmptyOrNull(structure);
+		Records[index, Column.Definition] = TildeIfEmptyOrNull(definition);
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
@@ -287,7 +287,7 @@ public partial class DataEditorForm : Form
 		}
 
 		int idx = recordsListView.SelectedItems[0].Index;
-		var dialogResult = MessageBox.Show($@"Are you sure you want to delete record {Records[idx, ColumnsIndex.Name]}?",
+		var dialogResult = MessageBox.Show($@"Are you sure you want to delete record {Records[idx, Column.Name]}?",
 			null, MessageBoxButtons.YesNo);
 
 		if (dialogResult == DialogResult.Yes)
@@ -468,10 +468,10 @@ public partial class DataEditorForm : Form
 		recordsListView.Items[index].Selected = true;
 		recordsListView.SelectedIndexChanged += RecordsListViewOnSelectedIndexChanged;
 
-		nameTextBox.Text = Records[index, ColumnsIndex.Name];
-		txtCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
-		structureTextBox.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
-		definitionTextBox.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
+		nameTextBox.Text = Records[index, Column.Name];
+		txtCategory.Text = EmptyIfTilde(Records[index, Column.Category]);
+		structureTextBox.Text = EmptyIfTilde(Records[index, Column.Structure]);
+		definitionTextBox.Text = EmptyIfTilde(Records[index, Column.Definition]);
 	}
 
 	/// <summary>
@@ -487,11 +487,11 @@ public partial class DataEditorForm : Form
 			var listViewItem = new ListViewItem
 			{
 				Tag = row,
-				Text = Records[row, ColumnsIndex.Name],
+				Text = Records[row, Column.Name],
 			};
 
 			// Get the category to display, if there is no value, just use N/A as the display value
-			string category = Records[row, ColumnsIndex.Category];
+			string category = Records[row, Column.Category];
 			category = category == "~" ? "N/A" : category;
 
 			listViewItem.SubItems.Add(category);
