@@ -23,7 +23,7 @@ public partial class DataEditorForm : Form
 	public const int Columns = 4;
 	public static string[,] Records = new string[Rows, Columns];
 
-	private static int _ptr; // represents the next empty cell, starts 0
+	private static int ptr; // represents the next empty cell, starts 0
 
 	public DataEditorForm()
 	{
@@ -33,7 +33,7 @@ public partial class DataEditorForm : Form
 		// Fill records with dummy data, for testing stuff.
 		for (int row = 0; row < Rows - 4; row++)
 		{
-			_ptr++;
+			ptr++;
 			Records[row, ColumnsIndex.Name] = $"Row_{row + 1}";
 
 			for (int col = 1; col < Columns; col++)
@@ -91,7 +91,7 @@ public partial class DataEditorForm : Form
 	private static int BinarySearchForName(string query)
 	{
 		int left = 0;
-		int right = _ptr - 1;
+		int right = ptr - 1;
 		
 		// Continue the search as long as the left boundary does not exceed the right one, if it's not, then it wasn't found.
 		while (left <= right)
@@ -172,7 +172,7 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private static void InitializeRecords()
 	{
-		_ptr = 0;
+		ptr = 0;
 		for (int row = 0; row < Rows; row++)
 		{
 			for (int col = 0; col < Columns; col++)
@@ -190,7 +190,7 @@ public partial class DataEditorForm : Form
 	{
 		if (string.IsNullOrWhiteSpace(name) || name == "~")
 			return (false, "Name is empty");
-		if (_ptr >= Rows)
+		if (ptr >= Rows)
 			return (false, "Insufficient space left in collection.");
 
 		return (true, null);
@@ -201,11 +201,11 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
-		Records[_ptr, ColumnsIndex.Name] = name;
-		Records[_ptr, ColumnsIndex.Category] = category ?? "~";
-		Records[_ptr, ColumnsIndex.Structure] = structure ?? "~";
-		Records[_ptr, ColumnsIndex.Definition] = definition ?? "~";
-		_ptr++;
+		Records[ptr, ColumnsIndex.Name] = name;
+		Records[ptr, ColumnsIndex.Category] = category ?? "~";
+		Records[ptr, ColumnsIndex.Structure] = structure ?? "~";
+		Records[ptr, ColumnsIndex.Definition] = definition ?? "~";
+		ptr++;
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
@@ -218,7 +218,7 @@ public partial class DataEditorForm : Form
 		var check = CanAddRecord(txtName.Text);
 		if (!check.isValid)
 		{
-			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {txtName.Text} to index {_ptr}",
+			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {txtName.Text} to index {ptr}",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			txtName.Focus();
@@ -237,7 +237,7 @@ public partial class DataEditorForm : Form
 		{
 			Records[index, col] = "~";
 		}
-		_ptr--;
+		ptr--;
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
@@ -369,7 +369,7 @@ public partial class DataEditorForm : Form
 
 			// Assign the newly filled array to Records and update _ptr
 			Records = newArray;
-			_ptr = newPtr;
+			ptr = newPtr;
 			
 			DisplayRecords();
 			statusStripFeedbackLabel.Text = $@"Loaded data from ""{filePath}""";
@@ -406,7 +406,7 @@ public partial class DataEditorForm : Form
 		saveFileDialog.CheckWriteAccess = true;
 		saveFileDialog.DefaultExt = "dat";
 
-		if (_ptr == 0)
+		if (ptr == 0)
 		{
 			MessageBox.Show(@"No records to save.", @"Unable to save",
 				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -481,7 +481,7 @@ public partial class DataEditorForm : Form
 	{
 		listViewRecords.Items.Clear();
 
-		for (int row = 0; row < _ptr; row++)
+		for (int row = 0; row < ptr; row++)
 		{
 			// Create an item for the name, and a sub item for the category to display.
 			var listViewItem = new ListViewItem
