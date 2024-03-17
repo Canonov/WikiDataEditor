@@ -30,87 +30,87 @@
 		{
 			components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataEditorForm));
-			listViewRecords = new ListView();
-			columnHeaderName = new ColumnHeader();
-			columnHeaderCategory = new ColumnHeader();
-			txtName = new TextBox();
+			recordsListView = new ListView();
+			nameColumnHeader = new ColumnHeader();
+			categoryColumnHeader = new ColumnHeader();
+			nameTextBox = new TextBox();
 			statusStrip = new StatusStrip();
-			statusStripFeedbackLabel = new ToolStripStatusLabel();
-			menuStrip = new MenuStrip();
-			fileToolStripMenuItem = new ToolStripMenuItem();
-			newToolStripMenuItem = new ToolStripMenuItem();
-			openToolStripMenuItem = new ToolStripMenuItem();
+			feedbackStatusStrip = new ToolStripStatusLabel();
+			topMenuStrip = new MenuStrip();
+			toolStripFileMenuItem = new ToolStripMenuItem();
+			toolsStripNewButton = new ToolStripMenuItem();
+			toolStripOpenButton = new ToolStripMenuItem();
 			toolStripSeparator = new ToolStripSeparator();
-			saveToolStripMenuItem = new ToolStripMenuItem();
+			toolStripSaveButton = new ToolStripMenuItem();
 			toolStripSeparator1 = new ToolStripSeparator();
-			exitToolStripMenuItem = new ToolStripMenuItem();
-			groupBoxRecordValues = new GroupBox();
-			labelDefinition = new Label();
-			txtDefinition = new TextBox();
-			labelStructure = new Label();
-			txtStructure = new TextBox();
+			toolStripExitButton = new ToolStripMenuItem();
+			recordValuesGroupBox = new GroupBox();
+			definitionLabel = new Label();
+			definitionTextBox = new TextBox();
+			structureLabel = new Label();
+			structureTextBox = new TextBox();
 			labelCategory = new Label();
 			txtCategory = new TextBox();
-			labelName = new Label();
+			nameLabel = new Label();
 			groupBoxControls = new GroupBox();
-			btnEdit = new Button();
-			btnClear = new Button();
-			btnDelete = new Button();
-			btnAdd = new Button();
-			groupBoxSearch = new GroupBox();
-			btnSearch = new Button();
-			txtSearch = new TextBox();
+			editButton = new Button();
+			clearButton = new Button();
+			deleteButton = new Button();
+			addButton = new Button();
+			searchGroupBox = new GroupBox();
+			searchButton = new Button();
+			searchTextBox = new TextBox();
 			toolTips = new ToolTip(components);
 			statusStrip.SuspendLayout();
-			menuStrip.SuspendLayout();
-			groupBoxRecordValues.SuspendLayout();
+			topMenuStrip.SuspendLayout();
+			recordValuesGroupBox.SuspendLayout();
 			groupBoxControls.SuspendLayout();
-			groupBoxSearch.SuspendLayout();
+			searchGroupBox.SuspendLayout();
 			SuspendLayout();
 			// 
 			// listViewRecords
 			// 
-			listViewRecords.BackColor = Color.Gainsboro;
-			listViewRecords.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderCategory });
-			listViewRecords.Font = new Font("Tahoma", 9F);
-			listViewRecords.ForeColor = SystemColors.MenuText;
-			listViewRecords.FullRowSelect = true;
-			listViewRecords.GridLines = true;
-			listViewRecords.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-			listViewRecords.ImeMode = ImeMode.On;
-			listViewRecords.Location = new Point(232, 35);
-			listViewRecords.MultiSelect = false;
-			listViewRecords.Name = "listViewRecords";
-			listViewRecords.Size = new Size(320, 405);
-			listViewRecords.TabIndex = 0;
-			listViewRecords.UseCompatibleStateImageBehavior = false;
-			listViewRecords.View = View.Details;
-			listViewRecords.SelectedIndexChanged += ListViewRecordsOnSelectedIndexChanged;
+			recordsListView.BackColor = Color.Gainsboro;
+			recordsListView.Columns.AddRange(new ColumnHeader[] { nameColumnHeader, categoryColumnHeader });
+			recordsListView.Font = new Font("Tahoma", 9F);
+			recordsListView.ForeColor = SystemColors.MenuText;
+			recordsListView.FullRowSelect = true;
+			recordsListView.GridLines = true;
+			recordsListView.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+			recordsListView.ImeMode = ImeMode.On;
+			recordsListView.Location = new Point(232, 35);
+			recordsListView.MultiSelect = false;
+			recordsListView.Name = "recordsListView";
+			recordsListView.Size = new Size(320, 405);
+			recordsListView.TabIndex = 0;
+			recordsListView.UseCompatibleStateImageBehavior = false;
+			recordsListView.View = View.Details;
+			recordsListView.SelectedIndexChanged += RecordsListViewOnSelectedIndexChanged;
 			// 
 			// columnHeaderName
 			// 
-			columnHeaderName.Text = "Name";
-			columnHeaderName.Width = 217;
+			nameColumnHeader.Text = "Name";
+			nameColumnHeader.Width = 217;
 			// 
 			// columnHeaderCategory
 			// 
-			columnHeaderCategory.Text = "Category";
-			columnHeaderCategory.Width = 97;
+			categoryColumnHeader.Text = "Category";
+			categoryColumnHeader.Width = 97;
 			// 
 			// txtName
 			// 
-			txtName.Font = new Font("Tahoma", 9F);
-			txtName.Location = new Point(6, 39);
-			txtName.Name = "txtName";
-			txtName.PlaceholderText = "NO OBJECT SELECTED";
-			txtName.Size = new Size(209, 22);
-			txtName.TabIndex = 1;
-			txtName.MouseDoubleClick += TxtNameOnClick;
+			nameTextBox.Font = new Font("Tahoma", 9F);
+			nameTextBox.Location = new Point(6, 39);
+			nameTextBox.Name = "nameTextBox";
+			nameTextBox.PlaceholderText = "NO OBJECT SELECTED";
+			nameTextBox.Size = new Size(209, 22);
+			nameTextBox.TabIndex = 1;
+			nameTextBox.MouseDoubleClick += NameTextBoxOnClick;
 			// 
 			// statusStrip
 			// 
 			statusStrip.BackColor = SystemColors.Control;
-			statusStrip.Items.AddRange(new ToolStripItem[] { statusStripFeedbackLabel });
+			statusStrip.Items.AddRange(new ToolStripItem[] { feedbackStatusStrip });
 			statusStrip.Location = new Point(0, 441);
 			statusStrip.Name = "statusStrip";
 			statusStrip.Size = new Size(562, 22);
@@ -119,52 +119,52 @@
 			// 
 			// statusStripFeedbackLabel
 			// 
-			statusStripFeedbackLabel.AutoSize = false;
-			statusStripFeedbackLabel.Font = new Font("Tahoma", 9F);
-			statusStripFeedbackLabel.Name = "statusStripFeedbackLabel";
-			statusStripFeedbackLabel.Size = new Size(281, 17);
-			statusStripFeedbackLabel.Text = "Ready...";
-			statusStripFeedbackLabel.TextAlign = ContentAlignment.MiddleLeft;
+			feedbackStatusStrip.AutoSize = false;
+			feedbackStatusStrip.Font = new Font("Tahoma", 9F);
+			feedbackStatusStrip.Name = "feedbackStatusStrip";
+			feedbackStatusStrip.Size = new Size(281, 17);
+			feedbackStatusStrip.Text = "Ready...";
+			feedbackStatusStrip.TextAlign = ContentAlignment.MiddleLeft;
 			// 
 			// menuStrip
 			// 
-			menuStrip.BackColor = SystemColors.ScrollBar;
-			menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
-			menuStrip.Location = new Point(0, 0);
-			menuStrip.Name = "menuStrip";
-			menuStrip.RenderMode = ToolStripRenderMode.System;
-			menuStrip.Size = new Size(562, 24);
-			menuStrip.TabIndex = 7;
-			menuStrip.Text = "menuStrip1";
+			topMenuStrip.BackColor = SystemColors.ScrollBar;
+			topMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripFileMenuItem });
+			topMenuStrip.Location = new Point(0, 0);
+			topMenuStrip.Name = "topMenuStrip";
+			topMenuStrip.RenderMode = ToolStripRenderMode.System;
+			topMenuStrip.Size = new Size(562, 24);
+			topMenuStrip.TabIndex = 7;
+			topMenuStrip.Text = "menuStrip1";
 			// 
 			// fileToolStripMenuItem
 			// 
-			fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, openToolStripMenuItem, toolStripSeparator, saveToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
-			fileToolStripMenuItem.Font = new Font("Tahoma", 9F);
-			fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			fileToolStripMenuItem.Size = new Size(36, 20);
-			fileToolStripMenuItem.Text = "&File";
+			toolStripFileMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolsStripNewButton, toolStripOpenButton, toolStripSeparator, toolStripSaveButton, toolStripSeparator1, toolStripExitButton });
+			toolStripFileMenuItem.Font = new Font("Tahoma", 9F);
+			toolStripFileMenuItem.Name = "toolStripFileMenuItem";
+			toolStripFileMenuItem.Size = new Size(36, 20);
+			toolStripFileMenuItem.Text = "&File";
 			// 
 			// newToolStripMenuItem
 			// 
-			newToolStripMenuItem.Font = new Font("Tahoma", 9F);
-			newToolStripMenuItem.Image = (Image)resources.GetObject("newToolStripMenuItem.Image");
-			newToolStripMenuItem.ImageTransparentColor = Color.Magenta;
-			newToolStripMenuItem.Name = "newToolStripMenuItem";
-			newToolStripMenuItem.Size = new Size(200, 22);
-			newToolStripMenuItem.Text = "Clear all Records";
-			newToolStripMenuItem.Click += NewToolStripMenuItemOnClick;
+			toolsStripNewButton.Font = new Font("Tahoma", 9F);
+			toolsStripNewButton.Image = (Image)resources.GetObject("newToolStripMenuItem.Image");
+			toolsStripNewButton.ImageTransparentColor = Color.Magenta;
+			toolsStripNewButton.Name = "toolsStripNewButton";
+			toolsStripNewButton.Size = new Size(200, 22);
+			toolsStripNewButton.Text = "Clear all Records";
+			toolsStripNewButton.Click += ToolsStripNewButtonOnClick;
 			// 
 			// openToolStripMenuItem
 			// 
-			openToolStripMenuItem.Font = new Font("Tahoma", 9F);
-			openToolStripMenuItem.Image = (Image)resources.GetObject("openToolStripMenuItem.Image");
-			openToolStripMenuItem.ImageTransparentColor = Color.Magenta;
-			openToolStripMenuItem.Name = "openToolStripMenuItem";
-			openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-			openToolStripMenuItem.Size = new Size(200, 22);
-			openToolStripMenuItem.Text = "&Open from File";
-			openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+			toolStripOpenButton.Font = new Font("Tahoma", 9F);
+			toolStripOpenButton.Image = (Image)resources.GetObject("openToolStripMenuItem.Image");
+			toolStripOpenButton.ImageTransparentColor = Color.Magenta;
+			toolStripOpenButton.Name = "toolStripOpenButton";
+			toolStripOpenButton.ShortcutKeys = Keys.Control | Keys.O;
+			toolStripOpenButton.Size = new Size(200, 22);
+			toolStripOpenButton.Text = "&Open from File";
+			toolStripOpenButton.Click += ToolStripOpenButtonClick;
 			// 
 			// toolStripSeparator
 			// 
@@ -173,14 +173,14 @@
 			// 
 			// saveToolStripMenuItem
 			// 
-			saveToolStripMenuItem.Font = new Font("Tahoma", 9F);
-			saveToolStripMenuItem.Image = (Image)resources.GetObject("saveToolStripMenuItem.Image");
-			saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
-			saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
-			saveToolStripMenuItem.Size = new Size(200, 22);
-			saveToolStripMenuItem.Text = "&Save to File";
-			saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+			toolStripSaveButton.Font = new Font("Tahoma", 9F);
+			toolStripSaveButton.Image = (Image)resources.GetObject("saveToolStripMenuItem.Image");
+			toolStripSaveButton.ImageTransparentColor = Color.Magenta;
+			toolStripSaveButton.Name = "toolStripSaveButton";
+			toolStripSaveButton.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
+			toolStripSaveButton.Size = new Size(200, 22);
+			toolStripSaveButton.Text = "&Save to File";
+			toolStripSaveButton.Click += ToolStripSaveButtonClick;
 			// 
 			// toolStripSeparator1
 			// 
@@ -189,67 +189,67 @@
 			// 
 			// exitToolStripMenuItem
 			// 
-			exitToolStripMenuItem.Font = new Font("Tahoma", 9F);
-			exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			exitToolStripMenuItem.Size = new Size(200, 22);
-			exitToolStripMenuItem.Text = "E&xit";
+			toolStripExitButton.Font = new Font("Tahoma", 9F);
+			toolStripExitButton.Name = "toolStripExitButton";
+			toolStripExitButton.Size = new Size(200, 22);
+			toolStripExitButton.Text = "E&xit";
 			// 
 			// groupBoxRecordValues
 			// 
-			groupBoxRecordValues.BackColor = SystemColors.Control;
-			groupBoxRecordValues.Controls.Add(labelDefinition);
-			groupBoxRecordValues.Controls.Add(txtDefinition);
-			groupBoxRecordValues.Controls.Add(labelStructure);
-			groupBoxRecordValues.Controls.Add(txtStructure);
-			groupBoxRecordValues.Controls.Add(labelCategory);
-			groupBoxRecordValues.Controls.Add(txtCategory);
-			groupBoxRecordValues.Controls.Add(labelName);
-			groupBoxRecordValues.Controls.Add(txtName);
-			groupBoxRecordValues.Font = new Font("Tahoma", 9F);
-			groupBoxRecordValues.Location = new Point(5, 35);
-			groupBoxRecordValues.Name = "groupBoxRecordValues";
-			groupBoxRecordValues.Size = new Size(221, 206);
-			groupBoxRecordValues.TabIndex = 8;
-			groupBoxRecordValues.TabStop = false;
-			groupBoxRecordValues.Text = "Values";
+			recordValuesGroupBox.BackColor = SystemColors.Control;
+			recordValuesGroupBox.Controls.Add(definitionLabel);
+			recordValuesGroupBox.Controls.Add(definitionTextBox);
+			recordValuesGroupBox.Controls.Add(structureLabel);
+			recordValuesGroupBox.Controls.Add(structureTextBox);
+			recordValuesGroupBox.Controls.Add(labelCategory);
+			recordValuesGroupBox.Controls.Add(txtCategory);
+			recordValuesGroupBox.Controls.Add(nameLabel);
+			recordValuesGroupBox.Controls.Add(nameTextBox);
+			recordValuesGroupBox.Font = new Font("Tahoma", 9F);
+			recordValuesGroupBox.Location = new Point(5, 35);
+			recordValuesGroupBox.Name = "recordValuesGroupBox";
+			recordValuesGroupBox.Size = new Size(221, 206);
+			recordValuesGroupBox.TabIndex = 8;
+			recordValuesGroupBox.TabStop = false;
+			recordValuesGroupBox.Text = "Values";
 			// 
 			// labelDefinition
 			// 
-			labelDefinition.AutoSize = true;
-			labelDefinition.Font = new Font("Tahoma", 9F);
-			labelDefinition.Location = new Point(6, 160);
-			labelDefinition.Name = "labelDefinition";
-			labelDefinition.Size = new Size(58, 14);
-			labelDefinition.TabIndex = 8;
-			labelDefinition.Text = "Definition";
+			definitionLabel.AutoSize = true;
+			definitionLabel.Font = new Font("Tahoma", 9F);
+			definitionLabel.Location = new Point(6, 160);
+			definitionLabel.Name = "definitionLabel";
+			definitionLabel.Size = new Size(58, 14);
+			definitionLabel.TabIndex = 8;
+			definitionLabel.Text = "Definition";
 			// 
 			// txtDefinition
 			// 
-			txtDefinition.Font = new Font("Tahoma", 9F);
-			txtDefinition.Location = new Point(6, 176);
-			txtDefinition.Name = "txtDefinition";
-			txtDefinition.PlaceholderText = "Empty...";
-			txtDefinition.Size = new Size(209, 22);
-			txtDefinition.TabIndex = 7;
+			definitionTextBox.Font = new Font("Tahoma", 9F);
+			definitionTextBox.Location = new Point(6, 176);
+			definitionTextBox.Name = "definitionTextBox";
+			definitionTextBox.PlaceholderText = "Empty...";
+			definitionTextBox.Size = new Size(209, 22);
+			definitionTextBox.TabIndex = 7;
 			// 
 			// labelStructure
 			// 
-			labelStructure.AutoSize = true;
-			labelStructure.Font = new Font("Tahoma", 9F);
-			labelStructure.Location = new Point(6, 115);
-			labelStructure.Name = "labelStructure";
-			labelStructure.Size = new Size(59, 14);
-			labelStructure.TabIndex = 6;
-			labelStructure.Text = "Structure";
+			structureLabel.AutoSize = true;
+			structureLabel.Font = new Font("Tahoma", 9F);
+			structureLabel.Location = new Point(6, 115);
+			structureLabel.Name = "structureLabel";
+			structureLabel.Size = new Size(59, 14);
+			structureLabel.TabIndex = 6;
+			structureLabel.Text = "Structure";
 			// 
 			// txtStructure
 			// 
-			txtStructure.Font = new Font("Tahoma", 9F);
-			txtStructure.Location = new Point(6, 132);
-			txtStructure.Name = "txtStructure";
-			txtStructure.PlaceholderText = "Empty...";
-			txtStructure.Size = new Size(209, 22);
-			txtStructure.TabIndex = 5;
+			structureTextBox.Font = new Font("Tahoma", 9F);
+			structureTextBox.Location = new Point(6, 132);
+			structureTextBox.Name = "structureTextBox";
+			structureTextBox.PlaceholderText = "Empty...";
+			structureTextBox.Size = new Size(209, 22);
+			structureTextBox.TabIndex = 5;
 			// 
 			// labelCategory
 			// 
@@ -272,20 +272,20 @@
 			// 
 			// labelName
 			// 
-			labelName.AutoSize = true;
-			labelName.Font = new Font("Tahoma", 9F);
-			labelName.Location = new Point(6, 22);
-			labelName.Name = "labelName";
-			labelName.Size = new Size(38, 14);
-			labelName.TabIndex = 2;
-			labelName.Text = "Name";
+			nameLabel.AutoSize = true;
+			nameLabel.Font = new Font("Tahoma", 9F);
+			nameLabel.Location = new Point(6, 22);
+			nameLabel.Name = "nameLabel";
+			nameLabel.Size = new Size(38, 14);
+			nameLabel.TabIndex = 2;
+			nameLabel.Text = "Name";
 			// 
 			// groupBoxControls
 			// 
-			groupBoxControls.Controls.Add(btnEdit);
-			groupBoxControls.Controls.Add(btnClear);
-			groupBoxControls.Controls.Add(btnDelete);
-			groupBoxControls.Controls.Add(btnAdd);
+			groupBoxControls.Controls.Add(editButton);
+			groupBoxControls.Controls.Add(clearButton);
+			groupBoxControls.Controls.Add(deleteButton);
+			groupBoxControls.Controls.Add(addButton);
 			groupBoxControls.Font = new Font("Tahoma", 9F);
 			groupBoxControls.Location = new Point(5, 237);
 			groupBoxControls.Name = "groupBoxControls";
@@ -296,78 +296,78 @@
 			// 
 			// btnEdit
 			// 
-			btnEdit.Font = new Font("Tahoma", 9F);
-			btnEdit.Location = new Point(112, 55);
-			btnEdit.Name = "btnEdit";
-			btnEdit.Size = new Size(97, 31);
-			btnEdit.TabIndex = 3;
-			btnEdit.Text = "EDIT";
-			btnEdit.UseVisualStyleBackColor = true;
-			btnEdit.Click += BtnEditOnClick;
+			editButton.Font = new Font("Tahoma", 9F);
+			editButton.Location = new Point(112, 55);
+			editButton.Name = "editButton";
+			editButton.Size = new Size(97, 31);
+			editButton.TabIndex = 3;
+			editButton.Text = "EDIT";
+			editButton.UseVisualStyleBackColor = true;
+			editButton.Click += EditButtonOnClick;
 			// 
 			// btnClear
 			// 
-			btnClear.Font = new Font("Tahoma", 9F);
-			btnClear.Location = new Point(9, 55);
-			btnClear.Name = "btnClear";
-			btnClear.Size = new Size(97, 31);
-			btnClear.TabIndex = 2;
-			btnClear.Text = "CLEAR";
-			btnClear.UseVisualStyleBackColor = true;
-			btnClear.Click += BtnClearOnClick;
+			clearButton.Font = new Font("Tahoma", 9F);
+			clearButton.Location = new Point(9, 55);
+			clearButton.Name = "clearButton";
+			clearButton.Size = new Size(97, 31);
+			clearButton.TabIndex = 2;
+			clearButton.Text = "CLEAR";
+			clearButton.UseVisualStyleBackColor = true;
+			clearButton.Click += ClearButtonOnClick;
 			// 
 			// btnDelete
 			// 
-			btnDelete.Font = new Font("Tahoma", 9F);
-			btnDelete.Location = new Point(112, 19);
-			btnDelete.Name = "btnDelete";
-			btnDelete.Size = new Size(97, 31);
-			btnDelete.TabIndex = 1;
-			btnDelete.Text = "DELETE";
-			btnDelete.UseVisualStyleBackColor = true;
-			btnDelete.Click += BtnDeleteOnClick;
+			deleteButton.Font = new Font("Tahoma", 9F);
+			deleteButton.Location = new Point(112, 19);
+			deleteButton.Name = "deleteButton";
+			deleteButton.Size = new Size(97, 31);
+			deleteButton.TabIndex = 1;
+			deleteButton.Text = "DELETE";
+			deleteButton.UseVisualStyleBackColor = true;
+			deleteButton.Click += DeleteButtonOnClick;
 			// 
 			// btnAdd
 			// 
-			btnAdd.Font = new Font("Tahoma", 9F);
-			btnAdd.Location = new Point(9, 19);
-			btnAdd.Name = "btnAdd";
-			btnAdd.Size = new Size(97, 31);
-			btnAdd.TabIndex = 0;
-			btnAdd.Text = "ADD";
-			btnAdd.UseVisualStyleBackColor = true;
-			btnAdd.Click += BtnAddClick;
+			addButton.Font = new Font("Tahoma", 9F);
+			addButton.Location = new Point(9, 19);
+			addButton.Name = "addButton";
+			addButton.Size = new Size(97, 31);
+			addButton.TabIndex = 0;
+			addButton.Text = "ADD";
+			addButton.UseVisualStyleBackColor = true;
+			addButton.Click += AddButtonClick;
 			// 
 			// groupBoxSearch
 			// 
-			groupBoxSearch.Controls.Add(btnSearch);
-			groupBoxSearch.Controls.Add(txtSearch);
-			groupBoxSearch.Font = new Font("Tahoma", 9F);
-			groupBoxSearch.Location = new Point(5, 338);
-			groupBoxSearch.Name = "groupBoxSearch";
-			groupBoxSearch.Size = new Size(221, 102);
-			groupBoxSearch.TabIndex = 10;
-			groupBoxSearch.TabStop = false;
-			groupBoxSearch.Text = "Search";
+			searchGroupBox.Controls.Add(searchButton);
+			searchGroupBox.Controls.Add(searchTextBox);
+			searchGroupBox.Font = new Font("Tahoma", 9F);
+			searchGroupBox.Location = new Point(5, 338);
+			searchGroupBox.Name = "searchGroupBox";
+			searchGroupBox.Size = new Size(221, 102);
+			searchGroupBox.TabIndex = 10;
+			searchGroupBox.TabStop = false;
+			searchGroupBox.Text = "Search";
 			// 
 			// btnSearch
 			// 
-			btnSearch.Location = new Point(6, 49);
-			btnSearch.Name = "btnSearch";
-			btnSearch.Size = new Size(203, 21);
-			btnSearch.TabIndex = 1;
-			btnSearch.Text = "SEARCH";
-			btnSearch.UseVisualStyleBackColor = true;
-			btnSearch.Click += BtnSearchOnClick;
+			searchButton.Location = new Point(6, 49);
+			searchButton.Name = "searchButton";
+			searchButton.Size = new Size(203, 21);
+			searchButton.TabIndex = 1;
+			searchButton.Text = "SEARCH";
+			searchButton.UseVisualStyleBackColor = true;
+			searchButton.Click += SearchButtonOnClick;
 			// 
 			// txtSearch
 			// 
-			txtSearch.Location = new Point(6, 21);
-			txtSearch.Name = "txtSearch";
-			txtSearch.PlaceholderText = "Enter Search Query";
-			txtSearch.Size = new Size(203, 22);
-			txtSearch.TabIndex = 0;
-			txtSearch.KeyPress += TxtSearchOnKeyPress;
+			searchTextBox.Location = new Point(6, 21);
+			searchTextBox.Name = "searchTextBox";
+			searchTextBox.PlaceholderText = "Enter Search Query";
+			searchTextBox.Size = new Size(203, 22);
+			searchTextBox.TabIndex = 0;
+			searchTextBox.KeyPress += SearchTextBoxOnKeyPress;
 			// 
 			// DataEditorForm
 			// 
@@ -375,62 +375,62 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.Control;
 			ClientSize = new Size(562, 463);
-			Controls.Add(groupBoxSearch);
+			Controls.Add(searchGroupBox);
 			Controls.Add(groupBoxControls);
-			Controls.Add(groupBoxRecordValues);
+			Controls.Add(recordValuesGroupBox);
 			Controls.Add(statusStrip);
-			Controls.Add(menuStrip);
-			Controls.Add(listViewRecords);
+			Controls.Add(topMenuStrip);
+			Controls.Add(recordsListView);
 			Font = new Font("Tahoma", 9F);
-			MainMenuStrip = menuStrip;
+			MainMenuStrip = topMenuStrip;
 			Name = "DataEditorForm";
 			Text = "Wiki Data Editor";
 			Load += OnFormLoad;
 			statusStrip.ResumeLayout(false);
 			statusStrip.PerformLayout();
-			menuStrip.ResumeLayout(false);
-			menuStrip.PerformLayout();
-			groupBoxRecordValues.ResumeLayout(false);
-			groupBoxRecordValues.PerformLayout();
+			topMenuStrip.ResumeLayout(false);
+			topMenuStrip.PerformLayout();
+			recordValuesGroupBox.ResumeLayout(false);
+			recordValuesGroupBox.PerformLayout();
 			groupBoxControls.ResumeLayout(false);
-			groupBoxSearch.ResumeLayout(false);
-			groupBoxSearch.PerformLayout();
+			searchGroupBox.ResumeLayout(false);
+			searchGroupBox.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
 
 		#endregion
 
-		private ListView listViewRecords;
-		private TextBox txtName;
+		private ListView recordsListView;
+		private TextBox nameTextBox;
 		private StatusStrip statusStrip;
-		private MenuStrip menuStrip;
-		private ColumnHeader columnHeaderName;
-		private ColumnHeader columnHeaderCategory;
-		private GroupBox groupBoxRecordValues;
-		private ToolStripMenuItem fileToolStripMenuItem;
-		private ToolStripMenuItem newToolStripMenuItem;
-		private ToolStripMenuItem openToolStripMenuItem;
+		private MenuStrip topMenuStrip;
+		private ColumnHeader nameColumnHeader;
+		private ColumnHeader categoryColumnHeader;
+		private GroupBox recordValuesGroupBox;
+		private ToolStripMenuItem toolStripFileMenuItem;
+		private ToolStripMenuItem toolsStripNewButton;
+		private ToolStripMenuItem toolStripOpenButton;
 		private ToolStripSeparator toolStripSeparator;
-		private ToolStripMenuItem saveToolStripMenuItem;
+		private ToolStripMenuItem toolStripSaveButton;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem exitToolStripMenuItem;
-		private Label labelDefinition;
-		private TextBox txtDefinition;
-		private Label labelStructure;
-		private TextBox txtStructure;
+		private ToolStripMenuItem toolStripExitButton;
+		private Label definitionLabel;
+		private TextBox definitionTextBox;
+		private Label structureLabel;
+		private TextBox structureTextBox;
 		private Label labelCategory;
 		private TextBox txtCategory;
-		private Label labelName;
+		private Label nameLabel;
 		private GroupBox groupBoxControls;
-		private Button btnEdit;
-		private Button btnClear;
-		private Button btnDelete;
-		private Button btnAdd;
-		private GroupBox groupBoxSearch;
-		private Button btnSearch;
-		private TextBox txtSearch;
+		private Button editButton;
+		private Button clearButton;
+		private Button deleteButton;
+		private Button addButton;
+		private GroupBox searchGroupBox;
+		private Button searchButton;
+		private TextBox searchTextBox;
 		private ToolTip toolTips;
-		private ToolStripStatusLabel statusStripFeedbackLabel;
+		private ToolStripStatusLabel feedbackStatusStrip;
 	}
 }

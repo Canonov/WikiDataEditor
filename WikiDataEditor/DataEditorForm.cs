@@ -121,30 +121,30 @@ public partial class DataEditorForm : Form
 	}
 
 	// SEARCH EVENTS
-	private void TxtSearchOnKeyPress(object sender, KeyPressEventArgs e)
+	private void SearchTextBoxOnKeyPress(object sender, KeyPressEventArgs e)
 	{
 		// Redirect it to act as if the search button was pressed if the enter key is.
 		if (e.KeyChar == (char)Keys.Enter)
 		{
 			e.Handled = true;
-			BtnSearchOnClick(sender, e);
+			SearchButtonOnClick(sender, e);
 		}
 	}
 
 	// 9.7 - searching
-	private void BtnSearchOnClick(object sender, EventArgs e)
+	private void SearchButtonOnClick(object sender, EventArgs e)
 	{
-		string query = txtSearch.Text;
+		string query = searchTextBox.Text;
 
-		txtSearch.Clear();
-		txtSearch.Focus();
+		searchTextBox.Clear();
+		searchTextBox.Focus();
 
 		// If the query is empty or just a tilde, show an error message and return.
 		if (string.IsNullOrWhiteSpace(query) || query == "~")
 		{
 			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStripFeedbackLabel.Text = @"Last search failed. No valid query.";
+			feedbackStatusStrip.Text = @"Last search failed. No valid query.";
 			return;
 		}
 
@@ -155,7 +155,7 @@ public partial class DataEditorForm : Form
 		{
 			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStripFeedbackLabel.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
+			feedbackStatusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
 			return;
 		}
 
@@ -213,19 +213,19 @@ public partial class DataEditorForm : Form
 	}
 
 	// Event handler for add button, checks if it can add first. 9.2
-	private void BtnAddClick(object sender, EventArgs e)
+	private void AddButtonClick(object sender, EventArgs e)
 	{
-		var check = CanAddRecord(txtName.Text);
+		var check = CanAddRecord(nameTextBox.Text);
 		if (!check.isValid)
 		{
-			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {txtName.Text} to index {ptr}",
+			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {nameTextBox.Text} to index {ptr}",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-			txtName.Focus();
+			nameTextBox.Focus();
 			return;
 		}
 
-		AddRecord(txtName.Text, txtCategory.Text, txtStructure.Text, txtDefinition.Text);
+		AddRecord(nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
 	}
 
 	/// <summary>
@@ -243,21 +243,21 @@ public partial class DataEditorForm : Form
 		BubbleSortByNameAsc();
 		DisplayRecords();
 
-		statusStripFeedbackLabel.Text = @"Object deleted successfully.";
+		feedbackStatusStrip.Text = @"Object deleted successfully.";
 	}
 
 	// Event handler for edit button, checks if it can edit first. 9.3
-	private void BtnEditOnClick(object sender, EventArgs e)
+	private void EditButtonOnClick(object sender, EventArgs e)
 	{
-		if (listViewRecords.SelectedItems.Count == 0)
+		if (recordsListView.SelectedItems.Count == 0)
 		{
 			MessageBox.Show(@"No Record was selected...", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			statusStripFeedbackLabel.Text = @"No record was selected to edit.";
+			feedbackStatusStrip.Text = @"No record was selected to edit.";
 			return;
 		}
 
-		int idx = listViewRecords.SelectedItems[0].Index;
-		EditRecord(idx, txtName.Text, txtCategory.Text, txtStructure.Text, txtDefinition.Text);
+		int idx = recordsListView.SelectedItems[0].Index;
+		EditRecord(idx, nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
 	}
 
 	/// <summary>
@@ -274,26 +274,26 @@ public partial class DataEditorForm : Form
 		BubbleSortByNameAsc();
 		DisplayRecords();
 
-		statusStripFeedbackLabel.Text = @"Edited record successfully.";
+		feedbackStatusStrip.Text = @"Edited record successfully.";
 	}
 
 	// BUtton Event handler, checks the selection too - 9.4
-	private void BtnDeleteOnClick(object sender, EventArgs e)
+	private void DeleteButtonOnClick(object sender, EventArgs e)
 	{
-		if (listViewRecords.SelectedItems.Count < 1)
+		if (recordsListView.SelectedItems.Count < 1)
 		{
 			MessageBox.Show(@"No record selected", null, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			return;
 		}
 
-		int idx = listViewRecords.SelectedItems[0].Index;
+		int idx = recordsListView.SelectedItems[0].Index;
 		var dialogResult = MessageBox.Show($@"Are you sure you want to delete record {Records[idx, ColumnsIndex.Name]}?",
 			null, MessageBoxButtons.YesNo);
 
 		if (dialogResult == DialogResult.Yes)
 			DeleteRecord(idx);
 		else
-			statusStripFeedbackLabel.Text = @"Deletion aborted..";
+			feedbackStatusStrip.Text = @"Deletion aborted..";
 	}
 	
 	/// <summary>
@@ -325,7 +325,7 @@ public partial class DataEditorForm : Form
 		if (openFileDialog.ShowDialog() == DialogResult.OK)
 			LoadFromFile(openFileDialog.FileName);
 		else
-			statusStripFeedbackLabel.Text = @"Loading cancelled...";
+			feedbackStatusStrip.Text = @"Loading cancelled...";
 	}
 
 	/// <summary>
@@ -372,18 +372,18 @@ public partial class DataEditorForm : Form
 			ptr = newPtr;
 			
 			DisplayRecords();
-			statusStripFeedbackLabel.Text = $@"Loaded data from ""{filePath}""";
+			feedbackStatusStrip.Text = $@"Loaded data from ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
 			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStripFeedbackLabel.Text = $@"Loading failed ({ex.Message})";
+			feedbackStatusStrip.Text = $@"Loading failed ({ex.Message})";
 		}
 	}
 
 	// Event handler for open from file button - 9.11
-	private void openToolStripMenuItem_Click(object sender, EventArgs e)
+	private void ToolStripOpenButtonClick(object sender, EventArgs e)
 	{
 		var result = MessageBox.Show(@"Be warned that opening a file will erase all current records, are you sure?",
 			@"Open File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -416,7 +416,7 @@ public partial class DataEditorForm : Form
 		if (saveFileDialog.ShowDialog() == DialogResult.OK)
 			SaveToFile(saveFileDialog.FileName);
 		else
-			statusStripFeedbackLabel.Text = @"Saving cancelled...";
+			feedbackStatusStrip.Text = @"Saving cancelled...";
 	}
 
 	/// <summary>
@@ -440,18 +440,18 @@ public partial class DataEditorForm : Form
 				}
 			}
 
-			statusStripFeedbackLabel.Text = $@"Saved data to ""{filePath}""";
+			feedbackStatusStrip.Text = $@"Saved data to ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
 			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
-			statusStripFeedbackLabel.Text = $@"Saving failed ({ex.Message})";
+			feedbackStatusStrip.Text = $@"Saving failed ({ex.Message})";
 		}
 	}
 
 	// Event to handle the save button - 9.10
-	private void saveToolStripMenuItem_Click(object sender, EventArgs e) => PromptFileSave();
+	private void ToolStripSaveButtonClick(object sender, EventArgs e) => PromptFileSave();
 
 	#endregion
 	
@@ -463,15 +463,15 @@ public partial class DataEditorForm : Form
 		// used to put nothing instead of the tilde for an empty value.
 
 		// Disconnect the event handler and reconnect it after so it doesn't crash from an infinite loop.
-		listViewRecords.SelectedIndexChanged -= ListViewRecordsOnSelectedIndexChanged;
-		listViewRecords.SelectedIndices.Clear();
-		listViewRecords.Items[index].Selected = true;
-		listViewRecords.SelectedIndexChanged += ListViewRecordsOnSelectedIndexChanged;
+		recordsListView.SelectedIndexChanged -= RecordsListViewOnSelectedIndexChanged;
+		recordsListView.SelectedIndices.Clear();
+		recordsListView.Items[index].Selected = true;
+		recordsListView.SelectedIndexChanged += RecordsListViewOnSelectedIndexChanged;
 
-		txtName.Text = Records[index, ColumnsIndex.Name];
+		nameTextBox.Text = Records[index, ColumnsIndex.Name];
 		txtCategory.Text = EmptyIfTilde(Records[index, ColumnsIndex.Category]);
-		txtStructure.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
-		txtDefinition.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
+		structureTextBox.Text = EmptyIfTilde(Records[index, ColumnsIndex.Structure]);
+		definitionTextBox.Text = EmptyIfTilde(Records[index, ColumnsIndex.Definition]);
 	}
 
 	/// <summary>
@@ -479,7 +479,7 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void DisplayRecords()
 	{
-		listViewRecords.Items.Clear();
+		recordsListView.Items.Clear();
 
 		for (int row = 0; row < ptr; row++)
 		{
@@ -495,23 +495,23 @@ public partial class DataEditorForm : Form
 			category = category == "~" ? "N/A" : category;
 
 			listViewItem.SubItems.Add(category);
-			listViewRecords.Items.Add(listViewItem);
+			recordsListView.Items.Add(listViewItem);
 		}
 
-		listViewRecords.Update();
+		recordsListView.Update();
 	}
 
 	// When the user selects a record from the list, 9.9 - 1
-	private void ListViewRecordsOnSelectedIndexChanged(object? sender, EventArgs e)
+	private void RecordsListViewOnSelectedIndexChanged(object? sender, EventArgs e)
 	{
 		// If the user has unselected, clear the textboxes
-		if (listViewRecords.SelectedIndices.Count == 0)
+		if (recordsListView.SelectedIndices.Count == 0)
 		{
 			ClearTextboxes();
 		}
 		else
 		{
-			int selectedIndex = listViewRecords.SelectedIndices[0];
+			int selectedIndex = recordsListView.SelectedIndices[0];
 			SelectRecord(selectedIndex);
 		}
 	}
@@ -521,7 +521,7 @@ public partial class DataEditorForm : Form
 	#region Miscellaneous Events
 
 	// When the name textbox is double-clicked, offer to clear the textboxes
-	private void TxtNameOnClick(object sender, MouseEventArgs e)
+	private void NameTextBoxOnClick(object sender, MouseEventArgs e)
 	{
 		var result = MessageBox.Show(@"Would you like to clear the values?", @"Clear Items",
 			MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -531,13 +531,13 @@ public partial class DataEditorForm : Form
 	}
 	
 	// When the user pressed the clear button, clear the textboxes
-	private void BtnClearOnClick(object sender, EventArgs e)
+	private void ClearButtonOnClick(object sender, EventArgs e)
 	{
 		ClearTextboxes();
 	}
 
 	// File -> Clear, Clears all records
-	private void NewToolStripMenuItemOnClick(object sender, EventArgs e)
+	private void ToolsStripNewButtonOnClick(object sender, EventArgs e)
 	{
 		if (MessageBox.Show(@"This will erase ALL data, do you want to continue?", @"Clear",
 			    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -564,10 +564,10 @@ public partial class DataEditorForm : Form
 	// Clears the currently selected textboxes - 9.5
 	private void ClearTextboxes()
 	{
-		txtName.Clear();
+		nameTextBox.Clear();
 		txtCategory.Clear();
-		txtStructure.Clear();
-		txtDefinition.Clear();
+		structureTextBox.Clear();
+		definitionTextBox.Clear();
 	}
 	
 	#endregion
