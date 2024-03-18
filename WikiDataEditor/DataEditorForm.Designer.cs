@@ -37,7 +37,7 @@
             feedbackStatusStrip = new ToolStripStatusLabel();
             topMenuStrip = new MenuStrip();
             toolStripFileMenuItem = new ToolStripMenuItem();
-            toolsStripNewButton = new ToolStripMenuItem();
+            toolStripNewButton = new ToolStripMenuItem();
             toolStripOpenButton = new ToolStripMenuItem();
             toolStripSeparator = new ToolStripSeparator();
             toolStripSaveButton = new ToolStripMenuItem();
@@ -138,20 +138,20 @@
             // 
             // toolStripFileMenuItem
             // 
-            toolStripFileMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolsStripNewButton, toolStripOpenButton, toolStripSeparator, toolStripSaveButton, toolStripSeparator1, toolStripExitButton });
+            toolStripFileMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripNewButton, toolStripOpenButton, toolStripSeparator, toolStripSaveButton, toolStripSeparator1, toolStripExitButton });
             toolStripFileMenuItem.Font = new Font("Tahoma", 9F);
             toolStripFileMenuItem.Name = "toolStripFileMenuItem";
             toolStripFileMenuItem.Size = new Size(36, 20);
             toolStripFileMenuItem.Text = "&File";
             // 
-            // toolsStripNewButton
+            // toolStripNewButton
             // 
-            toolsStripNewButton.Font = new Font("Tahoma", 9F);
-            toolsStripNewButton.ImageTransparentColor = Color.Magenta;
-            toolsStripNewButton.Name = "toolsStripNewButton";
-            toolsStripNewButton.Size = new Size(200, 22);
-            toolsStripNewButton.Text = "Clear all Records";
-            toolsStripNewButton.Click += ToolsStripNewButtonOnClick;
+            toolStripNewButton.Font = new Font("Tahoma", 9F);
+            toolStripNewButton.ImageTransparentColor = Color.Magenta;
+            toolStripNewButton.Name = "toolStripNewButton";
+            toolStripNewButton.Size = new Size(200, 22);
+            toolStripNewButton.Text = "Clear all Records";
+            toolStripNewButton.Click += ToolsStripNewButtonOnClick;
             // 
             // toolStripOpenButton
             // 
@@ -406,7 +406,7 @@
 		private ColumnHeader categoryColumnHeader;
 		private GroupBox recordValuesGroupBox;
 		private ToolStripMenuItem toolStripFileMenuItem;
-		private ToolStripMenuItem toolsStripNewButton;
+		private ToolStripMenuItem toolStripNewButton;
 		private ToolStripMenuItem toolStripOpenButton;
 		private ToolStripSeparator toolStripSeparator;
 		private ToolStripMenuItem toolStripSaveButton;
@@ -429,5 +429,5 @@
 		private TextBox searchTextBox;
 		private ToolTip toolTips;
 		private ToolStripStatusLabel feedbackStatusStrip;
-	}
+    }
 }
