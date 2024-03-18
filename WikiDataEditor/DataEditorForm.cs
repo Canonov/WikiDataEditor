@@ -202,10 +202,11 @@ public partial class DataEditorForm : Form
 	private void AddRecord(string name, string? category, string? structure, string? definition)
 	{
 		Records[ptr, Column.Name] = name;
-		Records[ptr, Column.Category] = category ?? "~";
-		Records[ptr, Column.Structure] = structure ?? "~";
-		Records[ptr, Column.Definition] = definition ?? "~";
-		ptr++;
+		Records[ptr, Column.Category] = TildeIfEmptyOrNull(category);
+		Records[ptr, Column.Structure] = TildeIfEmptyOrNull(structure);
+		Records[ptr, Column.Definition] = TildeIfEmptyOrNull(definition);
+
+        ptr++;
 
 		ClearTextboxes();
 		BubbleSortByNameAsc();
