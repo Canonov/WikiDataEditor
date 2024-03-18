@@ -30,21 +30,6 @@ public partial class DataEditorForm : Form
 		InitializeComponent();
 		InitializeRecords();
 
-		// Fill records with dummy data, for testing stuff.
-		for (int row = 0; row < Rows - 4; row++)
-		{
-			ptr++;
-			Records[row, Column.Name] = $"Row_{row + 1}";
-
-			for (int col = 1; col < Columns; col++)
-			{
-				if (Random.Shared.Next(0, 2) == 1)
-					Records[row, col] = "~";
-				else
-					Records[row, col] = $"{col}_{row + 1}";
-			}
-		}
-
 		BubbleSortByNameAsc();
 	}
 
