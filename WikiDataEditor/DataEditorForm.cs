@@ -370,11 +370,15 @@ public partial class DataEditorForm : Form
 	// Event handler for open from file button - 9.11
 	private void ToolStripOpenButtonClick(object sender, EventArgs e)
 	{
-		var result = MessageBox.Show(@"Be warned that opening a file will erase all current records, are you sure?",
-			@"Open File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+		if (ptr > 0)
+		{
+			var result = MessageBox.Show(@"Be warned that opening a file will erase all current records, are you sure?",
+				@"Open File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-		if (result == DialogResult.Yes)
-			PromptFileLoad();
+			if (result != DialogResult.Yes)
+				return;
+		}
+		PromptFileLoad();
 	}
 
 
