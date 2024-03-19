@@ -1,7 +1,7 @@
 namespace WikiDataEditor;
 
 // Author: 30048254
-// Date: 15/03/2024
+// Date: 19/03/2024
 // Assessment Task 1 - Portfolio : Wiki Data Editor
 // Program for editing wiki entries, using a 2d record data structure
 public partial class DataEditorForm : Form
@@ -29,13 +29,11 @@ public partial class DataEditorForm : Form
 	{
 		InitializeComponent();
 		InitializeRecords();
-
-		BubbleSortByNameAsc();
 	}
 
 	private void OnFormLoad(object sender, EventArgs e)
 	{
-		DisplayRecords();
+		RefreshList(false, false, false);
 	}
 
 	#region Sorting and Searching
@@ -127,8 +125,7 @@ public partial class DataEditorForm : Form
 		// If the query is empty or just a tilde, show an error message and return.
 		if (string.IsNullOrWhiteSpace(query) || query == "~")
 		{
-			MessageBox.Show(@"Please enter a valid search query.", @"Invalid Query",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError(@"Please enter a valid search query.");
 			feedbackStatusStrip.Text = @"Last search failed. No valid query.";
 			return;
 		}
@@ -138,8 +135,7 @@ public partial class DataEditorForm : Form
 
 		if (index == -1) // Wasn't found
 		{
-			MessageBox.Show(@$"Search failed, couldn't find ""{query}"" in the records.", @"Search query not found",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError(@$"Search failed, couldn't find ""{query}"" in the records.");
 			feedbackStatusStrip.Text = @$"Search failed, couldn't find ""{query}"" in the records.";
 			return;
 		}
@@ -182,36 +178,40 @@ public partial class DataEditorForm : Form
 	}
 
 	/// <summary>
-	/// Add a new record to the data editor. 9.2
+	/// Sets a record at a specified index in the 2D array 'Records'. If the index is null, it adds the record at the next empty cell. 9.2 9.3
 	/// </summary>
-	private void AddRecord(string name, string? category, string? structure, string? definition)
+	private void SetRecordAt(int? index, string name, string? category, string? structure, string? definition)
 	{
-		Records[ptr, Column.Name] = name;
-		Records[ptr, Column.Category] = TildeIfEmptyOrNull(category);
-		Records[ptr, Column.Structure] = TildeIfEmptyOrNull(structure);
-		Records[ptr, Column.Definition] = TildeIfEmptyOrNull(definition);
+		// If the index is null then we are adding,
+		// so set it to the next empty cell (ptr) and increment ptr
+		if (index == null)
+		{
+			index = ptr;
+			ptr++;
+		}
+		
+		Records[index.Value, Column.Name] = name;
+		Records[index.Value, Column.Category] = TildeIfEmptyOrNull(category);
+		Records[index.Value, Column.Structure] = TildeIfEmptyOrNull(structure);
+		Records[index.Value, Column.Definition] = TildeIfEmptyOrNull(definition);
 
-        ptr++;
-
-		ClearTextboxes();
-		BubbleSortByNameAsc();
-		DisplayRecords();
+        RefreshList(); // Refresh the list to reflect the changes
 	}
 
 	// Event handler for add button, checks if it can add first. 9.2
 	private void AddButtonClick(object sender, EventArgs e)
 	{
+		// Check if we can add the record
 		var check = CanAddRecord(nameTextBox.Text);
 		if (!check.isValid)
 		{
-			MessageBox.Show($@"Unable to add because: {check.reason ?? "unknown"}", $@"Unable to add record {nameTextBox.Text} to index {ptr}",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+			ShowError($@"Unable to add to index {ptr} because: {check.reason ?? "of an unknown error"}.");
 			nameTextBox.Focus();
 			return;
 		}
 
-		AddRecord(nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
+		// Set the record at the next ptr to this new one.
+		SetRecordAt(null, nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
 	}
 
 	/// <summary>
@@ -225,9 +225,7 @@ public partial class DataEditorForm : Form
 		}
 		ptr--;
 
-		ClearTextboxes();
-		BubbleSortByNameAsc();
-		DisplayRecords();
+		RefreshList();
 
 		feedbackStatusStrip.Text = @"Object deleted successfully.";
 	}
@@ -237,7 +235,7 @@ public partial class DataEditorForm : Form
 	{
 		if (recordsListView.SelectedItems.Count == 0)
 		{
-			MessageBox.Show(@"No Record was selected...", null, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			ShowError(@"No Record was selected...");
 			feedbackStatusStrip.Text = @"No record was selected to edit.";
 			return;
 		}
@@ -256,9 +254,7 @@ public partial class DataEditorForm : Form
 		Records[index, Column.Structure] = TildeIfEmptyOrNull(structure);
 		Records[index, Column.Definition] = TildeIfEmptyOrNull(definition);
 
-		ClearTextboxes();
-		BubbleSortByNameAsc();
-		DisplayRecords();
+        RefreshList();
 
 		feedbackStatusStrip.Text = @"Edited record successfully.";
 	}
@@ -268,18 +264,20 @@ public partial class DataEditorForm : Form
 	{
 		if (recordsListView.SelectedItems.Count < 1)
 		{
-			MessageBox.Show(@"No record selected", null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError(@"No record selected");
 			return;
 		}
 
 		int idx = recordsListView.SelectedItems[0].Index;
-		var dialogResult = MessageBox.Show($@"Are you sure you want to delete record {Records[idx, Column.Name]}?",
-			null, MessageBoxButtons.YesNo);
 
-		if (dialogResult == DialogResult.Yes)
-			DeleteRecord(idx);
-		else
+		if (MessageBox.Show($@"Are you sure you want to delete record {Records[idx, Column.Name]}?", null,
+			    MessageBoxButtons.YesNo) is DialogResult.Yes)
+		{
 			feedbackStatusStrip.Text = @"Deletion aborted..";
+			return;
+		}
+
+		DeleteRecord(idx);
 	}
 	
 	/// <summary>
@@ -356,10 +354,8 @@ public partial class DataEditorForm : Form
 			// Assign the newly filled array to Records and update _ptr
 			Records = newArray;
 			ptr = newPtr;
-			
-			ClearTextboxes();
-			BubbleSortByNameAsc();
-			DisplayRecords();
+
+			RefreshList();
 			
 			feedbackStatusStrip.Text = $@"Loaded data from ""{filePath}""";
 		}
@@ -433,8 +429,7 @@ public partial class DataEditorForm : Form
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError($@"An unknown error occurred while saving the file:\n {ex}");
 			feedbackStatusStrip.Text = $@"Saving failed ({ex.Message})";
 		}
 	}
@@ -558,6 +553,30 @@ public partial class DataEditorForm : Form
 		structureTextBox.Clear();
 		definitionTextBox.Clear();
 	}
+	
+	/// <summary>
+	/// Refreshes the list view, optionally clearing the textboxes and/or selection, and optionally sorting the array.
+	/// </summary>
+	/// <param name="clearTextboxes">Whether to clear all text boxes</param>
+	/// <param name="sortArray">Whether to bubble sort the array automatically</param>
+	/// <param name="clearSelection">Whether to also clear the selection; defaults to false</param>
+	private void RefreshList(bool clearTextboxes = true, bool sortArray = true, bool clearSelection = false)
+	{
+		if (clearTextboxes)
+			ClearTextboxes();
+		if (clearSelection)
+			recordsListView.SelectedIndices.Clear();
+		if (sortArray)
+			BubbleSortByNameAsc();
+		
+		DisplayRecords();
+	}
+
+	/// <summary>
+	/// Shows an error message box containing the message parameter.
+	/// </summary>
+	private static void ShowError(string message) =>
+		MessageBox.Show(message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 	
 	#endregion
 }
