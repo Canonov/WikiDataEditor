@@ -199,7 +199,7 @@ public partial class DataEditorForm : Form
 	}
 
 	// Event handler for add button, checks if it can add first. 9.2
-	private void AddButtonClick(object sender, EventArgs e)
+	private void AddButtonOnClick(object sender, EventArgs e)
 	{
 		// Check if we can add the record
 		var check = CanAddRecord(nameTextBox.Text);

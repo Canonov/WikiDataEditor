@@ -334,7 +334,7 @@
             addButton.TabIndex = 0;
             addButton.Text = "ADD";
             addButton.UseVisualStyleBackColor = true;
-            addButton.Click += AddButtonClick;
+            addButton.Click += AddButtonOnClick;
             // 
             // searchGroupBox
             // 
