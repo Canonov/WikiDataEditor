@@ -287,68 +287,59 @@ public partial class DataEditorForm : Form
 	/// </summary>
 	private void PromptFileLoad()
 	{
-		using var openFileDialog = new OpenFileDialog();
-		openFileDialog.InitialDirectory = Application.StartupPath;
-		openFileDialog.FileName = DefaultDataFileName;
-		openFileDialog.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
+		using var openFile = new OpenFileDialog();
+		openFile.InitialDirectory = Application.StartupPath;
+		openFile.FileName = DefaultDataFileName;
+		openFile.Filter = @"data files (*.dat)|*.dat|All files (*.*)|*.*";
 		
-		if (openFileDialog.ShowDialog() == DialogResult.OK)
-			LoadFromFile(openFileDialog.FileName);
+		if (openFile.ShowDialog() == DialogResult.OK)
+			LoadFromFile(openFile.FileName);
 		else
 			feedbackStatusStrip.Text = @"Loading cancelled...";
 	}
 
 	/// <summary>
-	/// Load the records from a file. 9.11
+	/// Loads data from a file into the Records 2D array. 9.11
 	/// </summary>
 	private void LoadFromFile(string filePath)
 	{
 		try
 		{
-			// Open the file for reading
-			using var file = new FileStream(filePath, FileMode.Open);
-			using var reader = new BinaryReader(file);
+			using var reader = new BinaryReader(File.OpenRead(filePath));
 
+			var newRecords = new string[Rows, Columns];
 			int newPtr = -1;
-			string[,] newArray = new string[Rows, Columns];
 
-			// Read data from the file into the newArray
 			for (int row = 0; row < Rows; row++)
 			{
-				// If the newPtr has not been set and the current cell is empty, set newPtr to the current row
-				if (newPtr == -1 && newArray[row, 0] == "~")
-					newPtr = row;
-				
 				for (int col = 0; col < Columns; col++)
 				{
-					try
-					{
-						newArray[row, col] = reader.ReadString();
-					}
-					catch (Exception)
-					{
-						// If an exception occurs while reading, show a message and rethrow the exception
-						MessageBox.Show(@$"An Exception occurred while reading at ({row}, {col})");
-						throw; // send it up
-					}
+					newRecords[row, col] = reader.ReadString();
 				}
+
+				if (newPtr == -1 && newRecords[row, 0] == "~")
+					newPtr = row;
 			}
-			
-			// If newPtr was not set, it means the array is probably full, so set it to Rows
-			newPtr = newPtr == -1 ? Rows : newPtr;
-			
-			// Assign the newly filled array to Records and update _ptr
-			Records = newArray;
-			ptr = newPtr;
+
+			Records = newRecords;
+			ptr = newPtr == -1 ? Rows : newPtr; // If it was never set, it's full.
 
 			RefreshList();
-			
 			feedbackStatusStrip.Text = $@"Loaded data from ""{filePath}""";
+		}
+		catch (UnauthorizedAccessException ex)
+		{
+			ShowError($@"Access to the file was denied: {ex.Message}");
+			feedbackStatusStrip.Text = $@"Loading failed ({ex.Message})";
+		}
+		catch (IOException ex)
+		{
+			ShowError($@"An I/O error occurred: {ex.Message}");
+			feedbackStatusStrip.Text = $@"Loading failed ({ex.Message})";
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show($@"An unknown error occurred while loading the file: {ex}", @"Error!",
-				MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError($@"An error occurred while loading the file: {ex}");
 			feedbackStatusStrip.Text = $@"Loading failed ({ex.Message})";
 		}
 	}
