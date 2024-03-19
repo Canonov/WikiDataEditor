@@ -121,7 +121,8 @@
             feedbackStatusStrip.AutoSize = false;
             feedbackStatusStrip.Font = new Font("Tahoma", 9F);
             feedbackStatusStrip.Name = "feedbackStatusStrip";
-            feedbackStatusStrip.Size = new Size(281, 17);
+            feedbackStatusStrip.Size = new Size(300, 17);
+            feedbackStatusStrip.Spring = true;
             feedbackStatusStrip.Text = "Ready...";
             feedbackStatusStrip.TextAlign = ContentAlignment.MiddleLeft;
             // 
