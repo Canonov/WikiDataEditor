@@ -241,21 +241,7 @@ public partial class DataEditorForm : Form
 		}
 
 		int idx = recordsListView.SelectedItems[0].Index;
-		EditRecord(idx, nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
-	}
-
-	/// <summary>
-	/// Edit a record at the specificed index - 9.3
-	/// </summary>
-	private void EditRecord(int index, string name, string? category, string? structure, string? definition)
-	{
-		Records[index, Column.Name] = name;
-		Records[index, Column.Category] = TildeIfEmptyOrNull(category);
-		Records[index, Column.Structure] = TildeIfEmptyOrNull(structure);
-		Records[index, Column.Definition] = TildeIfEmptyOrNull(definition);
-
-        RefreshList();
-
+		SetRecordAt(idx, nameTextBox.Text, txtCategory.Text, structureTextBox.Text, definitionTextBox.Text);
 		feedbackStatusStrip.Text = @"Edited record successfully.";
 	}
 
