@@ -94,7 +94,7 @@ public partial class DataEditorForm : Form
 					left = mid + 1;
 					break;
 				// query is smaller, ignore right half
-				default:
+				case > 0:
 					right = mid - 1;
 					break;
 			}
