@@ -331,15 +331,15 @@ public partial class DataEditorForm : Form
 			// Read data from the file into the newArray
 			for (int row = 0; row < Rows; row++)
 			{
+				// If the newPtr has not been set and the current cell is empty, set newPtr to the current row
+				if (newPtr == -1 && newArray[row, 0] == "~")
+					newPtr = row;
+				
 				for (int col = 0; col < Columns; col++)
 				{
 					try
 					{
 						newArray[row, col] = reader.ReadString();
-
-						// If the newPtr has not been set and the current cell is empty, set newPtr to the current row
-						if (newPtr == -1 && col == 0 && newArray[row, col] == "~")
-							newPtr = row;
 					}
 					catch (Exception)
 					{
@@ -349,20 +349,23 @@ public partial class DataEditorForm : Form
 					}
 				}
 			}
-
-			// If newPtr was not set, it means the array is probably full, so set it to Rows + 1
-			newPtr = newPtr == -1 ? Rows + 1 : newPtr;
-
+			
+			// If newPtr was not set, it means the array is probably full, so set it to Rows
+			newPtr = newPtr == -1 ? Rows : newPtr;
+			
 			// Assign the newly filled array to Records and update _ptr
 			Records = newArray;
 			ptr = newPtr;
 			
+			ClearTextboxes();
+			BubbleSortByNameAsc();
 			DisplayRecords();
+			
 			feedbackStatusStrip.Text = $@"Loaded data from ""{filePath}""";
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show($@"An unknown error occurred while saving the file: {ex.Message}", @"Error!",
+			MessageBox.Show($@"An unknown error occurred while loading the file: {ex}", @"Error!",
 				MessageBoxButtons.OK, MessageBoxIcon.Error);
 			feedbackStatusStrip.Text = $@"Loading failed ({ex.Message})";
 		}
