@@ -257,7 +257,7 @@ public partial class DataEditorForm : Form
 		int idx = recordsListView.SelectedItems[0].Index;
 
 		if (MessageBox.Show($@"Are you sure you want to delete record {Records[idx, Column.Name]}?", null,
-			    MessageBoxButtons.YesNo) is DialogResult.Yes)
+			    MessageBoxButtons.YesNo) != DialogResult.Yes)
 		{
 			feedbackStatusStrip.Text = @"Deletion aborted..";
 			return;
